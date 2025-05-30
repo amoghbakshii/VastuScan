@@ -1,0 +1,196 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  *{
+    font-family: "DM Serif Display", serif;
+  }
+  .form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    min-height: 90vh;
+    background: linear-gradient(135deg, #eaf6f6, #ffffff);
+    font-family: "DM Serif Display", serif;
+    padding: 60px 20px;
+    gap: 40px;
+  }
+
+  .left-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: #06202B;
+  }
+
+  .left-pane h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  .left-pane p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .form-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+    width: 100%;
+    padding: 40px;
+    transition: transform 0.3s ease;
+  }
+
+  .form-card:hover {
+    transform: scale(1.01);
+  }
+
+  .form-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #06202B;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 12px;
+    border: 2px solid #cdd9e1;
+    border-radius: 12px;
+    background: none;
+    font-size: 16px;
+    color: #06202B;
+    transition: 0.3s ease;
+  }
+
+  .form-group label {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    background: #fff;
+    color: #999;
+    padding: 0 5px;
+    font-size: 15px;
+    transition: 0.3s ease;
+    pointer-events: none;
+  }
+
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label,
+  .form-group textarea:focus + label,
+  .form-group textarea:not(:placeholder-shown) + label,
+  .form-group select:focus + label,
+  .form-group select:not([value=""]) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
+    color: #0a3a5b;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #06202B, #0a3a5b);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #0a3a5b, #06202B);
+  }
+
+  @media (max-width: 900px) {
+    .form-wrapper {
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+
+    .left-pane {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+
+ 
+</style>
+
+<div class="form-wrapper">
+  <div class="left-pane">
+    <h1>Book an Appointment</h1>
+    <p>
+      Schedule a consultation for Vastu, interior design, site visits, and more.
+      We'll get back to you quickly to confirm the slot.✨
+    </p>
+  </div>
+
+  <form action="/appointment/book" method="POST" class="form-card" autocomplete="off">
+    <h2 class="form-title">Let’s Get You Booked</h2>
+
+    <div class="form-group">
+      <input type="text" id="name" name="name" required placeholder=" " />
+      <label for="name">Full Name</label>
+    </div>
+
+    <div class="form-group">
+      <input type="tel" id="phone" name="phone" required placeholder=" " pattern="\d{10}" />
+      <label for="phone">Phone Number</label>
+    </div>
+
+    <div class="form-group">
+      <input type="email" id="email" name="email" placeholder=" " />
+      <label for="email">Email (optional)</label>
+    </div>
+
+    <div class="form-group">
+      <input type="date" id="date" name="date" required placeholder=" " />
+      <label for="date">Preferred Date</label>
+    </div>
+
+    <div class="form-group">
+      <input type="time" id="time" name="time" required placeholder=" " />
+      <label for="time">Preferred Time</label>
+    </div>
+
+    <div class="form-group">
+      <select id="serviceType" name="serviceType" required>
+        <option value="" disabled selected hidden></option>
+        <option value="Vastu Consultation">Vastu Consultation</option>
+        <option value="Interior Design">Interior Design</option>
+        <option value="Follow-up">Follow-up</option>
+        <option value="Site Visit">Site Visit</option>
+        <option value="Other">Other</option>
+      </select>
+      <label for="serviceType">Type of Service</label>
+    </div>
+
+    <div class="form-group">
+      <textarea id="message" name="message" placeholder=" " maxlength="1000"></textarea>
+      <label for="message">Additional Message</label>
+    </div>
+
+    <button type="submit" class="submit-btn">Book Appointment</button>
+  </form>
+</div>

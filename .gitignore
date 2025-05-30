@@ -1,0 +1,29 @@
+# Node modules 
+node_modules/
+
+# dotenv config
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build and cache
+dist/
+build/
+.cache/
+tmp/
+temp/
+
+# system-generated junk
+*.pid
+*.seed
+*.pid.lock
+pids

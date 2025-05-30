@@ -1,0 +1,59 @@
+<% layout('layouts/boilerplate') %>
+
+<!-- Mapbox CSS -->
+ <style>
+   *{
+    font-family: 'DM Serif Display', serif;
+   }
+ </style>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+
+<!-- Mapbox JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<div class="container">
+  <h1 class="my-4">Your Listings</h1>
+
+  <% if (businesses.length === 0) { %>
+    <p>No businesses listed yet. <a href="/business/list-business">Click here to list one!</a></p>
+  <% } else { %>
+    <div class="row">
+      <% businesses.forEach((business, index) => { %>
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h4 class="card-title"><%= business.name %></h4>
+              <h6 class="card-subtitle mb-2 text-muted"><%= business.serviceType %></h6>
+              <p class="card-text"><strong>Address:</strong> <%= business.address %></p>
+              <p class="card-text"><strong>Contact:</strong> <%= business.contact %></p>
+              <p class="card-text"><strong>Description:</strong> <%= business.description || 'N/A' %></p>
+
+              <!-- Map Container -->
+              <div id="map<%= index %>" style="height: 200px;" class="my-3 rounded shadow-sm"></div>
+
+              <p class="card-text text-muted">
+                <small>Listed on: <%= business.createdAt ? business.createdAt.toDateString() : 'Unknown date' %></small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapbox Init Script -->
+        <script>
+          mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
+
+          const map<%= index %> = new mapboxgl.Map({
+            container: 'map<%= index %>',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>],
+            zoom: 12
+          });
+
+          new mapboxgl.Marker()
+            .setLngLat([<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>])
+            .addTo(map<%= index %>);
+        </script>
+      <% }) %>
+    </div>
+  <% } %>
+</div>

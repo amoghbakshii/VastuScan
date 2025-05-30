@@ -1,0 +1,131 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  .login-container {
+    background: white;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    text-align: center;
+    margin: 100px auto;
+    font-family: "DM Serif Display", serif;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .login-container h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #06202B;
+    color: #F5EEDD;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .google-btn:hover {
+    background-color: #F5EEDD;
+    color: #06202B;
+    border: 1px solid #06202B;
+  }
+
+  .google-icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  .user-info {
+    margin-top: 20px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+  }
+
+  .user-details {
+    margin-top: 15px;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+  }
+
+  .user-details strong {
+    color: #06202B;
+  }
+
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      padding: 20px;
+      margin: 50px auto;
+    }
+
+    .user-info, .user-details {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .google-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="login-container">
+  <% if (user) { %>
+    <div class="user-info">
+      <h1>Welcome,<br> <%= user.name %>!</h1>
+      <br>
+      <a class="google-btn" href="/auth/logout">Logout</a>
+
+      <% if (user.role === 'business') { %>
+        <br>
+        <a class="google-btn" href="/business/dashboard">View Your Business Dashboard</a>
+      <% } %>
+    </div>
+
+    <div class="user-details">
+      <p><strong>Name:</strong> <%= user.name %></p>
+      <p><strong>Email:</strong> <%= user.email || "Not provided" %></p>
+      <p><strong>Unique Customer ID:</strong> <%= user._id %></p>
+      <p><strong>Account created on:</strong> <%= user.createdAt.toDateString() %></p>
+      <p><strong>User Type:</strong> <%= user.role || "NULL" %></p>
+      
+      <% if (user.profilePic) { %>
+        <p><strong>Profile Pic:</strong><br>
+          <img src="<%= user.profilePic %>" alt="Profile Picture" width="80" height="80" style="border-radius: 50%;">
+        </p>
+      <% } %>
+    </div>
+
+  <% } else { %>
+    <div style="width: 100%;">
+      <h2>Login to your VastuScan account</h2>
+      <a class="google-btn" href="/auth/google">
+        <i class="fa-brands fa-google"></i>
+        Sign in with Google
+      </a>
+    </div>
+  <% } %>
+</div>

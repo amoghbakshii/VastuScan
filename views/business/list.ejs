@@ -1,0 +1,402 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  .form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    min-height: 90vh;
+    background: linear-gradient(135deg, #eaf6f6, #ffffff);
+    font-family: "DM Serif Display", serif;
+    padding: 60px 20px;
+    gap: 40px;
+  }
+
+  .left-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: #06202B;
+  }
+
+  .left-pane h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  .left-pane p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .form-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+    width: 100%;
+    padding: 40px;
+    transition: transform 0.3s ease;
+  }
+
+  .form-card:hover {
+    transform: scale(1.01);
+  }
+
+  .form-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #06202B;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 12px;
+    border: 2px solid #cdd9e1;
+    border-radius: 12px;
+    background: none;
+    font-size: 16px;
+    color: #06202B;
+    transition: 0.3s ease;
+  }
+
+  .form-group label {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    background: #fff;
+    color: #999;
+    padding: 0 5px;
+    font-size: 15px;
+    transition: 0.3s ease;
+    pointer-events: none;
+  }
+
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label,
+  .form-group textarea:focus + label,
+  .form-group textarea:not(:placeholder-shown) + label,
+  .form-group select:focus + label,
+  .form-group select:not([value=""]) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
+    color: #0a3a5b;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #06202B, #0a3a5b);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #0a3a5b, #06202B);
+  }
+
+  @media (max-width: 900px) {
+    .form-wrapper {
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+
+    .left-pane {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+
+  /* timeline */
+
+  .timeline__cover {
+    background: #06202B;
+    padding: 60px 0;
+    color: #F5EEDD;
+    font-family: "DM Serif Display", serif;
+}
+
+.timeline__cover .timeline__title {
+    max-width: 840px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.timeline__cover .timeline__title h2 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 60px;
+    color: #7AE2CF;
+    margin-bottom: 12px;
+}
+
+.timeline__cover .timeline {
+    padding-top: 40px;
+}
+
+.timeline__cover .timeline ul {
+    padding-top: 60px;
+    position: relative;
+}
+
+.timeline__cover .timeline ul li {
+    background: #7AE2CF;
+    position: relative;
+    margin: 0 auto 40px;
+    width: 2px;
+    list-style-type: none;
+}
+
+.timeline__cover .timeline ul li:before {
+    content: '';
+    background: #077A7D;
+    position: absolute;
+    left: 50%;
+    top: -28px;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #F5EEDD;
+}
+
+.timeline__cover .timeline ul li .content {
+    position: relative;
+    top: -80px;
+    width: 300px;
+    transition: opacity 0.7s ease;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.timeline__cover .timeline ul li .content .badge {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #06202B;
+    background: #7AE2CF;
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 1000px;
+    font-weight: 600;
+}
+
+.timeline__cover .timeline ul li .content h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #F5EEDD;
+    margin: 12px 0 8px;
+}
+
+.timeline__cover .timeline ul li .content p {
+    color: #E3E3E3;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.timeline__cover .timeline ul li:nth-child(odd) .content {
+    left: 70px;
+}
+
+.timeline__cover .timeline ul li:nth-child(even) .content {
+    left: calc(-300px - 70px);
+}
+
+/* Responsive Tweaks */
+@media screen and (max-width: 1020px) {
+    .timeline__cover .timeline ul li .content {
+        width: 42vw;
+    }
+
+    .timeline__cover .timeline ul li:nth-child(even) .content {
+        left: calc(-42vw - 40px);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .timeline__cover {
+        padding: 40px 0;
+    }
+
+    .timeline__cover .timeline__title {
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    .timeline__cover .timeline__title h2 {
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    .timeline__cover .timeline {
+        padding-top: 32px;
+    }
+
+    .timeline__cover .timeline ul li {
+        margin-left: 20px;
+    }
+
+    .timeline__cover .timeline ul li .content {
+        width: calc(100vw - 100px);
+        left: 38px !important;
+    }
+
+    
+
+}
+
+/* Fade and slide-up animation */
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeline__cover .timeline ul li .content {
+    opacity: 0;
+    animation: fadeSlideUp 1s ease-out forwards;
+    animation-delay: 0s;
+}
+
+/* Add stagger effect (optional) */
+.timeline__cover .timeline ul li:nth-child(1) .content { animation-delay: 0.2s; }
+.timeline__cover .timeline ul li:nth-child(2) .content { animation-delay: 0.4s; }
+.timeline__cover .timeline ul li:nth-child(3) .content { animation-delay: 0.6s; }
+.timeline__cover .timeline ul li:nth-child(4) .content { animation-delay: 0.8s; }
+/* ...add more if needed */
+</style>
+
+<section class="timeline__cover">
+  <div class="timeline__title">
+    <h2>Grow your Business, become a seller</h2>
+  </div>
+
+  <div class="timeline">
+    <ul>
+      <li>
+        <div class="content">
+          <div class="badge">Step 1</div>
+          <h3>Fill in your Business Details</h3>
+          <p>Submit your name, address, contact, services offered, and more through our onboarding form.</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="content">
+          <div class="badge">Step 2</div>
+          <h3>Verification by Our Team</h3>
+          <p>Our team checks and verifies your details to ensure everything is accurate and legit.</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="content">
+          <div class="badge">Step 3</div>
+          <h3>Agree to Our Terms</h3>
+          <p>Once verified, you'll review and accept our terms of service and community guidelines.</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="content">
+          <div class="badge">Step 4</div>
+          <h3>You're Onboard! 🎉</h3>
+          <p>Welcome aboard! Your business is now live and visible to users on VastuScan.</p>
+        </div>
+      </li>
+</section>
+
+<div class="form-wrapper">
+  <div class="left-pane">
+    <h1>List Your Business with us.</h1>
+    <p>
+      Reach thousands of potential clients by showcasing your expertise in Vastu, interior design, astrology, or architecture. It's quick, easy, and totally free. Let’s make your business shine ✨
+    </p>
+  </div>
+
+  <form action="/business/list-business" method="POST" class="form-card" autocomplete="off">
+    <h2 class="form-title">Fill in your details for a smoother onboarding</h2>
+
+    <div class="form-group">
+      <input type="text" id="name" name="name" required placeholder=" " />
+      <label for="name">Business Name</label>
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="address" name="address" required placeholder=" " />
+      <label for="address">Address</label>
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="contact" name="contact" required placeholder=" " />
+      <label for="contact">Contact Number</label>
+    </div>
+
+    <div class="form-group">
+      <select id="serviceType" name="serviceType" required>
+        <option value="" disabled selected hidden></option>
+        <option value="Vastu Consultant">Vastu Consultant</option>
+        <option value="Interior Designer">Interior Designer</option>
+        <option value="Architect">Architect</option>
+        <option value="Astrologer">Astrologer</option>
+      </select>
+      <label for="serviceType">Services Offered</label>
+    </div>
+
+    <div class="form-group">
+      <textarea id="description" name="description" required placeholder=" "></textarea>
+      <label for="description">Business Description</label>
+    </div>
+
+    <button type="submit" class="submit-btn">Submit Listing</button>
+  </form>
+</div>
+
+<script>
+  const timelineItems = document.querySelectorAll('.timeline ul li .content');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  timelineItems.forEach(item => {
+    item.style.animationPlayState = 'paused'; // pause until in view
+    observer.observe(item);
+  });
+</script>
