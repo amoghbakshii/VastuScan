@@ -1,0 +1,285 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  * {
+    font-family: "DM Serif Display", serif;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #fdfdfd;
+    color: #333;
+  }
+
+  .login-wrapper {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 60px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  .section {
+    flex: 1;
+    min-width: 320px;
+    animation: slideIn 0.6s ease forwards;
+  }
+
+  .google-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #06202B;
+    color: #F5EEDD;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  .google-btn:hover {
+    background-color: #F5EEDD;
+    color: #06202B;
+    border: 2px solid #06202B;
+    animation: bounce 0.3s ease-in-out;
+  }
+
+  
+
+  .card {
+    background: #fefefe;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: rgb(65, 62, 62)0px rgba(0,0,0,0.07);
+    margin-bottom: 24px;
+    animation: fadeIn 0.5s ease forwards;
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card h2 {
+    margin-bottom: 20px;
+    color: #06202B;
+    font-size: 28px;
+  }
+
+  .appointment-grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  .info-pair {
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+    color: #555;
+    font-size: 16px;
+  }
+
+  .info-pair strong {
+    color: #06202B;
+    font-weight: 600;
+  }
+
+  .profile-pic {
+    border-radius: 50%;
+    margin-top: 12px;
+    max-width: 100px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .profile-pic:hover {
+    transform: scale(1.07);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  .timeline {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .timeline-step {
+    flex: 1 1 auto;
+    min-width: 90px;
+    position: relative;
+    text-align: center;
+    font-weight: 600;
+    color: #bbb;
+    padding-top: 30px;
+    white-space: nowrap;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .timeline-step::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ddd;
+    z-index: 1;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .timeline-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: 50%;
+    width: 100%;
+    max-width: 50%;
+    height: 4px;
+    background-color: #ddd;
+    z-index: 0;
+    transform: translateX(50%);
+  }
+
+  .timeline-step.active {
+    color: #06202B;
+  }
+
+  .timeline-step.active::before {
+    background-color: #06202B;
+    box-shadow: 0 0 10px #06202B;
+  }
+
+  .timeline-step.completed::after {
+    background-color: #06202B;
+  }
+
+  @media (max-width: 767px) {
+    .timeline {
+      display: block;
+      max-width: 320px;
+      margin: 20px auto;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10px;
+      width: 4px;
+      height: 100%;
+      background-color: #ddd;
+      z-index: 0;
+    }
+
+    .timeline-step {
+      position: relative;
+      padding-left: 40px;
+      padding-top: 10px;
+      padding-bottom: 30px;
+      text-align: left;
+      white-space: normal;
+      min-width: auto;
+    }
+
+    .timeline-step::before {
+      top: 10px;
+      left: 0;
+      transform: none;
+    }
+
+    .timeline-step:not(:last-child)::after,
+    .timeline-step.completed::after {
+      display: none;
+    }
+  }
+</style>
+
+
+<div class="login-wrapper">
+  <div class="section">
+    <div class="card">
+      <h2>Welcome, <%= user.name %>!</h2>
+      <div class="info-pair" style="color: #666;"><strong>Email:</strong> <%= user.email || "Not provided" %></div>
+      <div class="info-pair" style="color: #666;"><strong>Customer ID:</strong> <%= user._id %></div>
+      <div class="info-pair" style="color: #666;"><strong>Account Created:</strong> <%= user.createdAt.toDateString() %></div>
+      <div class="info-pair" style="color: #666;"><strong>User Type:</strong> <%= user.role || "N/A" %></div>
+      
+
+      <% if (user.profilePic) { %>
+        <img class="profile-pic" src="<%= user.profilePic %>" alt="Profile Picture" />
+      <% } %>
+
+      <a class="google-btn" href="/auth/logout">Logout</a>
+
+      <% if (user.role === 'business') { %>
+        <a class="google-btn" href="/business/dashboard">View your Business Dashboard</a>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="card">
+
+      <% if (appointments && appointments.length > 0) { %>
+        <div class="appointment-grid">
+          <h2 class="your-appointments"><a href="/appointment/book" style="font-style: normal;text-decoration: none;color:#F5EEDD;background-color: #06202B;border-radius: 10px;"> &nbsp;Your Appointments &nbsp;</a></h2>
+          <% appointments.forEach(appointment => { %>
+            <div class="card">
+              <div class="info-pair"><h3>Your appointment is fixed with <%= appointment.business ? appointment.business.name : "Unknown" %></h3>
+              </div>
+              <div class="info-pair"><strong>Date - </strong><%= appointment.date.toDateString() %></div>
+              <div class="info-pair"><strong>Time - </strong> <%= appointment.time %></div>
+              <div class="info-pair"><strong>Service - </strong> <%= appointment.serviceType %></div>
+              <div class="timeline">
+  <div class="timeline-step <%= (appointment.status === 'Pending' || appointment.status === 'Confirmed' || appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Pending</div>
+  <div class="timeline-step <%= (appointment.status === 'Confirmed' || appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Confirmed</div>
+  <div class="timeline-step <%= (appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Completed</div>
+  <div class="timeline-step <%= (appointment.status === 'Cancelled') ? 'active completed' : '' %>">Cancelled</div>
+</div>
+              
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <h2>Your Appointments</h2>
+        <p style="color: #666;">You have no upcoming appointments.</p>
+        <a class="google-btn" href="/appointment/book">Book Appointment</a>
+      <% } %>
+    </div>
+  </div>
+</div>

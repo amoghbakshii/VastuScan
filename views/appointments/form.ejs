@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
 <style>
-  *{
+  * {
     font-family: "DM Serif Display", serif;
   }
   .form-wrapper {
@@ -13,29 +13,46 @@
     font-family: "DM Serif Display", serif;
     padding: 60px 20px;
     gap: 40px;
+    flex-wrap: wrap; 
   }
 
   .left-pane {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     padding: 40px;
     color: #06202B;
+    background-image: url("https://images.pexels.com/photos/5699486/pexels-photo-5699486.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    min-width: 300px; 
   }
 
   .left-pane h1 {
-    font-size: 40px;
-    margin-bottom: 20px;
+    font-size: 35px;
+    margin: 10px 10px 10px 10px;
   }
 
   .left-pane p {
     font-size: 18px;
     line-height: 1.6;
     max-width: 500px;
+    margin: 10px 10px 10px 10px;
   }
 
-  .form-card {
+  .text-class {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    height: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .form-card, .appointments-card {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -43,13 +60,23 @@
     width: 100%;
     padding: 40px;
     transition: transform 0.3s ease;
+    flex: 1; 
+    min-width: 300px;
   }
 
-  .form-card:hover {
+  .form-card:hover, .appointments-card:hover {
     transform: scale(1.01);
   }
 
   .form-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #06202B;
+  }
+
+  .form-title :hover{
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 25px;
@@ -121,29 +148,120 @@
     background: linear-gradient(135deg, #0a3a5b, #06202B);
   }
 
+  .appointment-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .appointment-item:last-child {
+    border-bottom: none; 
+  }
+
+  .appointment-item p {
+    margin-bottom: 5px;
+  }
+
   @media (max-width: 900px) {
     .form-wrapper {
       flex-direction: column;
       padding: 40px 20px;
+      align-items: center; 
     }
 
     .left-pane {
       align-items: center;
       text-align: center;
+      min-width: unset; 
+    }
+
+    .form-card, .appointments-card {
+      min-width: unset; 
     }
   }
 
+  
+  .timeline {
+    position: relative;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 3px solid #0a3a5b;
+  }
 
- 
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -8px;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(#0a3a5b, #06202B);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    padding-left: 30px;
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: -15px;
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border: 3px solid #0a3a5b;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .timeline-item h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #06202B;
+  }
+
+  .timeline-item .status {
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  .timeline-item .status.Pending {
+    color: #f39c12;
+  }
+
+  .timeline-item .status.Confirmed {
+    color: #27ae60;
+  }
+
+  .timeline-item .status.Cancelled {
+    color: #c0392b;
+  }
+
+  .timeline-item .details {
+    background: #f7fafa;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 10px;
+  }
+
+
+  
+
 </style>
 
 <div class="form-wrapper">
   <div class="left-pane">
-    <h1>Book an Appointment</h1>
-    <p>
-      Schedule a consultation for Vastu, interior design, site visits, and more.
-      We'll get back to you quickly to confirm the slot.✨
-    </p>
+    <div class="text-class">
+      <h1>Book an Appointment</h1>
+      <p>
+        Schedule a consultation for Vastu, interior design, site visits, and more.
+        We'll get back to you quickly to confirm the slot.✨
+      </p>
+    </div>
   </div>
 
   <form action="/appointment/book" method="POST" class="form-card" autocomplete="off">
@@ -161,7 +279,17 @@
 
     <div class="form-group">
       <input type="email" id="email" name="email" placeholder=" " />
-      <label for="email">Email (optional)</label>
+      <label for="email">Email</label>
+    </div>
+
+    <div class="form-group">
+      <select id="businessId" name="businessId" required>
+        <option value="" disabled selected hidden></option>
+        <% businesses.forEach(business => { %>
+          <option value="<%= business._id %>"><%= business.name %></option>
+        <% }) %>
+      </select>
+      <label for="businessId">Select your Expert</label>
     </div>
 
     <div class="form-group">
@@ -193,4 +321,35 @@
 
     <button type="submit" class="submit-btn">Book Appointment</button>
   </form>
+
+  <% if (appointments && appointments.length > 0) { %>
+    <div class="appointments-card">
+  <h2 class="form-title">Your Booked Appointments</h2>
+  
+  <% appointments.forEach(appointment => { %>
+    <div class="appointment-item" style="background: #f7fafa; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+      <% if (appointment.business && appointment.business.name) { %>
+        <h3>Expert - <%= appointment.business.name %></h3>
+      <% } %>
+      <p><strong>Date - </strong> <%= appointment.date.toDateString() %></p>
+      <p><strong>Time - </strong> <%= appointment.time %></p>
+      <p><strong>Service - </strong> <%= appointment.serviceType %></p>
+      <p><strong>Status - </strong> 
+        <span style="color: <%= appointment.status === 'Pending' ? '#f39c12' : appointment.status === 'Confirmed' ? '#27ae60' : '#c0392b' %>;">
+          <%= appointment.status %>
+        </span>
+      </p>
+    
+
+      <% if (appointment.message && appointment.message.length > 0) { %>
+        <div style="margin-top: 10px; padding: 10px; background-color: #eef6f8; border-left: 4px solid #0a3a5b; border-radius: 8px;">
+          <strong>Customer Message - </strong>
+          <p style="margin: 5px 0 0;"><%= appointment.message %></p>
+        </div>
+      <% } %>
+    </div>
+  <% }) %>
+</div>
+
+  <% } %>
 </div>

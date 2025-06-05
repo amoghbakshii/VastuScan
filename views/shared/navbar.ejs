@@ -3,50 +3,85 @@
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Styling  -->
+<!-- Styling -->
 <style>
+  .navbar {
+    background-color: #fff; /* Add background to prevent overlap transparency */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
   .nav-item a {
     color: #06202B;
     font-family: "DM Serif Display", serif;
     font-size: 18px;
+    padding: 8px 16px;
+  }
+
+  .login {
+    background-color: #06202B;
+    border-radius: 30px;
+  }
+
+  .nav-link.active {
+    font-weight: bold;
+    color: #077a7d !important;
+    border-bottom: 2px solid #077A7D;
+  }
+
+  @media (max-width: 991.98px) {
+    .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-item {
+      width: 100%;
+    }
+
+    .nav-item a {
+      display: block;
+      width: 100%;
+    }
   }
 </style>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
-  <div class="container">
+  <div class="container-fluid px-lg-5">
     <a class="navbar-brand fw-bold fs-1" href="/" style="font-family: DM Serif Display, serif; color: #06202B;">VastuScan</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mt-2 mb-lg-0 align-items-center">
+      <ul class="navbar-nav ms-auto mt-2 mb-lg-0 align-items-lg-center">
         <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
+          <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/about">About Us</a>
+          <a class="nav-link <%= currentPath === '/about' ? 'active' : '' %>" href="/about">About Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/customer/showList">Find Consultants</a>
+          <a class="nav-link <%= currentPath === '/customer/showList' ? 'active' : '' %>" href="/customer/showList">Find Experts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/business/list-business">List Your Business</a>
+          <a class="nav-link <%= currentPath === '/business/list-business' ? 'active' : '' %>" href="/business/list-business">List Your Business</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/contact">Contact Us</a>
+          <a class="nav-link <%= currentPath === '/contact' ? 'active' : '' %>" href="/contact">Contact Us</a>
         </li>
 
         <% if (typeof user !== 'undefined' && user) { %>
-          <li class="nav-item ms-3">
-            <a class="nav-link" href="/auth/login" role="button">
-              <i class="fa-solid fa-user"> &nbsp;</i><%= user.name %>
+          <li class="nav-item ms-lg-3">
+            <a class="nav-link" href="/dashboard" role="button">
+              <i class="fa-solid fa-user"></i> &nbsp;<%= user.name %>
             </a>
           </li>
         <% } else { %>
-          <li class="nav-item ms-3">
-            <a class="nav-link" href="/auth/login">
-              <i class="fa-solid fa-right-to-bracket"></i> Login
+          <li class="nav-item ms-lg-3">
+            <a class="nav-link login text-white" href="/auth/login" style="font-size: 14px;">
+              Login / Signup
             </a>
           </li>
         <% } %>

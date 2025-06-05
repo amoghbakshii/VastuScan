@@ -2,9 +2,26 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-// Show login page
-router.get('/login', (req, res) => {
-  res.render('auth/login', { user: req.user });
+
+router.get('/login', async (req, res) => {
+  try {
+    let appointments = [];
+
+    if (req.user) {
+      appointments = await userAppointments.find({ userId: req.user._id });
+    }
+
+    res.render('auth/login', {
+      user: req.user,
+      appointments
+    });
+  } catch (err) {
+    console.error("Error fetching appointments:", err);
+    res.render('auth/login', {
+      user: req.user,
+      appointments: []
+    });
+  }
 });
 
 // Google Auth
@@ -23,7 +40,7 @@ router.get('/google/callback',
   (req, res) => {
     console.log("User info:", req.user);
     req.flash('success_msg', `Welcome ${req.user.name}, you're now logged in.`);
-    res.redirect('/');
+    res.redirect('/dashboard');
   }
 );
 

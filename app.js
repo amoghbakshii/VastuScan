@@ -11,6 +11,7 @@ const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const businessRoutes = require('./routes/business');
 const custRoutes = require('./routes/customer');
+const dashboardRoute = require('./routes/dashboard');
 const session = require('express-session');
 const passport = require('passport');
 require('./config/passport'); 
@@ -50,6 +51,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
 
 
 
@@ -59,6 +64,7 @@ app.use('/auth', authRoutes);
 app.use('/business', businessRoutes);
 app.use('/customer',custRoutes);
 app.use('/', appointmentRoutes);
+app.use('/', dashboardRoute);
 
 
 // 404 Handler

@@ -13,24 +13,38 @@
   }
 
   .left-pane {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px;
-    color: #06202B;
-  }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 40px;
+  color: #06202B;
+  background-image: url("https://images.pexels.com/photos/258160/pexels-photo-258160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  
+}
 
   .left-pane h1 {
-    font-size: 40px;
-    margin-bottom: 20px;
+    font-size: 35px;
+    margin: 10px 10px 10px 10px;
   }
 
   .left-pane p {
     font-size: 18px;
     line-height: 1.6;
     max-width: 500px;
+    margin: 10px 10px 10px 10px;
   }
+
+  .text-class{
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+}
 
   .form-card {
     background: #ffffff;
@@ -330,7 +344,7 @@
       <li>
         <div class="content">
           <div class="badge">Step 4</div>
-          <h3>You're Onboard! 🎉</h3>
+          <h3>You're Onboard!</h3>
           <p>Welcome aboard! Your business is now live and visible to users on VastuScan.</p>
         </div>
       </li>
@@ -338,10 +352,12 @@
 
 <div class="form-wrapper">
   <div class="left-pane">
+    <div class="text-class">
     <h1>List Your Business with us.</h1>
     <p>
-      Reach thousands of potential clients by showcasing your expertise in Vastu, interior design, astrology, or architecture. It's quick, easy, and totally free. Let’s make your business shine ✨
+      Reach thousands of potential clients by showcasing your expertise in Vastu, interior design, astrology, or architecture. It's quick, easy, and totally free. Let’s make your business shine.
     </p>
+    </div>
   </div>
 
   <form action="/business/list-business" method="POST" class="form-card" autocomplete="off">

@@ -2,17 +2,35 @@ const express = require('express');
 const router = express.Router();
 const Appointment = require('../models/appointments');
 const { isLoggedIn } = require('../config/middleware');
+const Business = require('../models/Business');
 
 // GET: Show booking form
-router.get('/appointment/book',isLoggedIn, (req, res) => {
-  const success = req.query.success;
-  res.render('appointments/form', { success });
+router.get('/appointment/book', isLoggedIn, async (req, res) => {
+  try {
+    const success = req.query.success;
+    const userId = req.user._id;
+
+    const appointments = await Appointment.find({ user: userId })
+      .populate('business')
+      .sort({ date: -1 });
+
+    const businesses = await Business.find();
+
+    res.render('appointments/form', { businesses, success, appointments });
+  } catch (err) {
+    console.error('Error fetching appointments:', err);
+    res.status(500).render('error', {
+      message: 'Failed to load appointments. Try again later.',
+      statusCode: 500
+    });
+  }
 });
+
 
 // POST: Handle form submission
 router.post('/appointment/book', isLoggedIn, async (req, res) => {
   try {
-    const { name, phone, email, date, time, serviceType, message } = req.body;
+    const { name, phone, email, date, time, serviceType, message ,businessId} = req.body;
 
     const appointment = new Appointment({
       name,
@@ -23,7 +41,8 @@ router.post('/appointment/book', isLoggedIn, async (req, res) => {
       serviceType,
       message,
       user: req.user._id,
-      userRefName:req.user.name
+      userRefName:req.user.name,
+      business:businessId
     });
 
     await appointment.save();

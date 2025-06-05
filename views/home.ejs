@@ -1,14 +1,20 @@
 <% layout('layouts/boilerplate') %>
 <style>
-  body {
-    font-family: "DM Serif Display", serif;
+  html, body {
     margin: 0;
     padding: 0;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: "DM Serif Display", serif;
   }
 
   .hero-section {
     position: relative;
-    height: 100vh;
+    height: 90vh;
+    width: 100vw;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -32,7 +38,7 @@
     padding: 0 1.5rem;
     color: #F5EEDD;
     text-align: center;
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .typewriter h1 {
@@ -40,8 +46,13 @@
     border-right: .15em solid #F5EEDD;
     white-space: nowrap;
     margin: 0 auto;
-    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
     font-size: 5rem;
+    animation: typing 3.5s steps(40, end) forwards, blink-caret .75s step-end 5;
+  }
+
+  .typewriter h1::after {
+    content: '';
+    animation: caret-hide 0s 5s forwards;
   }
 
   @keyframes typing {
@@ -54,9 +65,8 @@
     50% { border-color: #F5EEDD; }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes caret-hide {
+    to { border-right-color: transparent; }
   }
 
   .hero-subtext {
@@ -65,18 +75,7 @@
     color: #F5EEDD;
     opacity: 0;
     animation: fadeIn 1s ease-in forwards;
-    animation-delay: 3s;
-  }
-
-  @keyframes btnFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(15px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    animation-delay: 1s;
   }
 
   .hero-buttons {
@@ -98,7 +97,7 @@
     transition: all 0.3s ease;
     opacity: 0;
     animation: btnFadeIn 0.8s ease-in-out forwards;
-    animation-delay: 3s;
+    animation-delay: 2s;
   }
 
   .hero-buttons .btn:hover {
@@ -106,99 +105,107 @@
     background-color: #F5EEDD;
   }
 
-  /* HOW WE WORK SECTION */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes btnFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
   .how-we-work {
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     padding: 80px 40px;
+    gap: 40px;
   }
 
   .how-we-work-title {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    padding-right: 40px;
+    flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
   }
 
   .how-we-work-title h4 {
     font-size: 60px;
     color: #06202B;
-    font-family: 'DM Serif Display', serif;
     line-height: 1.2;
-    margin: 0;
+    margin-bottom: 20px;
+    text-align: center;
   }
 
   .how-we-work-content {
     flex: 3;
     display: flex;
-    justify-content: flex-end;
     gap: 60px;
-    position: relative;
-  }
-
-  .divider-line {
-    width: 1px;
-    background-color: #ccc;
-    height: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .how-we-work-section {
-    max-width: 400px;
+    flex: 1;
+    min-width: 250px;
   }
 
   .how-we-work-section h3 {
     font-size: 2rem;
-    font-family: 'DM Serif Display', serif;
     color: #06202B;
     margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .how-we-work-section ul {
+    padding-left: 0;
+    list-style: none;
+    text-align: center;
   }
 
   .how-we-work-section li {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
     color: #333;
-    font-size: 1.4rem;
-    font-family: 'DM Serif Display', serif;
   }
 
-  @media (max-width: 767px) {
+  .how-we-work-section i {
+    margin-right: 8px;
+    color: #06202B;
+  }
+
+  @media (max-width: 768px) {
     .typewriter h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
     }
 
     .hero-subtext {
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
 
-    .hero-buttons .btn {
-      font-size: 1rem;
-      padding: 8px 16px;
+    .how-we-work {
+      padding: 40px 20px;
     }
 
-    
-
-    .how-we-work-title {
-      padding-right: 0;
-      margin-bottom: 20px;
+    .how-we-work-title h4 {
+      font-size: 2rem;
     }
 
     .how-we-work-content {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 40px;
+      gap: 30px;
     }
 
-    .divider-line {
-      display: none;
-    }
-
-    .how-we-work-section ol {
+    .hero-buttons .btn {
       font-size: 1rem;
-    }
-
-    .how-we-work-section h3 {
-      font-size: 1.5rem;
-    }
-
-    .how-we-work-title h4 {
-      font-size: 1.5rem;
     }
   }
 </style>
@@ -215,26 +222,26 @@
       </div>
       <p class="hero-subtext">Bridging Ancient Wisdom with Modern Living.</p>
       <div class="hero-buttons">
-        <a href="/customer/showList" class="btn btn-lg">Find Vastu Consultants</a>
+        <a href="/services" class="btn btn-lg">Find Vastu Consultants</a>
         <a href="/appointment/book" class="btn btn-lg">Book an appointment</a>
       </div>
     </div>
   </section>
 
-  <!-- How We Work Section -->
-  <section class="how-we-work">
-    <div class="how-we-work-title">
-      <h4>How we<br>work</h4>
-      <img src="/images/shopping.png" alt="Shopping Icon" style="width: 100px; height: auto;">
+<section class="how-we-work">
+  <div class="how-we-work-title">
+    <h4>How we work</h4>
+  </div>
+  <div class="how-we-work-content">
+    <div class="how-we-work-section">
+      <h3>For Customers</h3>
+      <ul>
+        <li>1) Login / Signup:<br> Create your account in seconds.</li>
+        <li>2) Fill Details: <br> Tell us about your awesome space.</li>
+        <li>3) Find the Match: <br> Find the best vastu advisors for your needs.</li>
+        <li>4) Get in Touch: <br> Book a consultation. Quick and easy.</li>
+      </ul>
     </div>
-    <div class="how-we-work-content">
-      <div class="how-we-work-section" style="list-style: none;">
-        <h3>For Customers</h3>
-        <li><strong><i class="fa-solid fa-right-to-bracket"></i><br>Login / Signup</strong> – Create your account in seconds.</li><br>
-        <li><strong><i class="fa-solid fa-sheet-plastic"></i><br>Fill Details</strong> – Tell us about your awesome space.</li><br>
-        <li><strong><i class="fa-solid fa-house"></i><br>Find the Match</strong> – Find the best vastu advisors for your needs.</li><br>
-        <li><strong><i class="fa-solid fa-phone-volume"></i><br>Get in Touch</strong> – Book a consultation. Quick and easy.</li>
-      </div>
 
       <div class="divider-line d-none d-md-block"></div>
 

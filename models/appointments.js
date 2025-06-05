@@ -27,7 +27,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   serviceType: {
     type: String,
-    enum: ['Vastu Consultation', 'Interior Design', 'Follow-up', 'Site Visit', 'Other'],
+    enum: ['Vastu Consultation', 'Interior Design', 'Follow-up', 'Site Visit', 'Other','Plumbing','House Automation'],
     required: true
   },
   message: {
@@ -39,14 +39,19 @@ const appointmentSchema = new mongoose.Schema({
     enum: ['Pending', 'Confirmed', 'Completed', 'Cancelled'],
     default: 'Pending'
   },
-  user:{
-    type:mongoose.Schema.ObjectId,
-    ref:'User',
-    required:true
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
   },
-  userRefName:{
-    type:String,
-    required:true
+  userRefName: {
+    type: String,
+    required: true
+  },
+  business: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Business',
+    required: true
   },
   createdAt: {
     type: Date,
