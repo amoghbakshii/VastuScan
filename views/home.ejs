@@ -1,220 +1,277 @@
 <% layout('layouts/boilerplate') %>
+
 <style>
+  :root {
+    --cream: #F5EEDD;
+    --mint: #7AE2CF;
+    --teal: #077A7D;
+    --navy: #06202B;
+
+    --radius-lg: 2rem;
+    --shadow-sm: 0 2px 6px rgba(0,0,0,.08);
+    --shadow-md: 0 8px 24px rgba(0,0,0,.12);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
   html, body {
     margin: 0;
     padding: 0;
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
-  }
-
-  body {
     font-family: "DM Serif Display", serif;
   }
 
+  /* ---------- HERO SECTION ---------- */
   .hero-section {
     position: relative;
     height: 90vh;
-    width: 100vw;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--cream);
   }
 
   .hero-section video {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.5);
+    filter: brightness(.55);
   }
 
   .hero-content {
     position: relative;
-    z-index: 1;
     padding: 0 1.5rem;
-    color: #F5EEDD;
     text-align: center;
     max-width: 100%;
   }
 
   .typewriter h1 {
-    overflow: hidden;
-    border-right: .15em solid #F5EEDD;
+    margin: 0;
+    font-size: 4rem;
     white-space: nowrap;
-    margin: 0 auto;
-    font-size: 5rem;
-    animation: typing 3.5s steps(40, end) forwards, blink-caret .75s step-end 5;
-  }
-
-  .typewriter h1::after {
-    content: '';
-    animation: caret-hide 0s 5s forwards;
+    overflow: hidden;
+    border-right: .15em solid var(--cream);
+    animation: typing 3s steps(30,end) forwards, blink .75s step-end 4;
   }
 
   @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+    from { width: 0; }
+    to { width: 100%; }
   }
 
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #F5EEDD; }
-  }
-
-  @keyframes caret-hide {
-    to { border-right-color: transparent; }
+  @keyframes blink {
+    50% { border-color: transparent; }
   }
 
   .hero-subtext {
-    font-size: 2rem;
-    margin-top: 20px;
-    color: #F5EEDD;
+    font-size: 1.75rem;
+    margin-top: 1rem;
     opacity: 0;
-    animation: fadeIn 1s ease-in forwards;
-    animation-delay: 1s;
-  }
-
-  .hero-buttons {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .hero-buttons .btn {
-    padding: 10px 20px;
-    background-color: #06202B;
-    color: #F5EEDD;
-    border: none;
-    font-family: 'DM Serif Display', serif;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    opacity: 0;
-    animation: btnFadeIn 0.8s ease-in-out forwards;
-    animation-delay: 2s;
-  }
-
-  .hero-buttons .btn:hover {
-    color: #06202B;
-    background-color: #F5EEDD;
+    animation: fadeIn 1s forwards 1s;
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes btnFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(15px) scale(0.95);
-    }
     to {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: none;
     }
   }
 
+  .hero-buttons {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: .75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 9999px;
+    background: var(--navy);
+    color: var(--cream);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: .25s;
+  }
+
+  .btn:hover {
+    background: var(--cream);
+    color: var(--navy);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ---------- HOW WE WORK SECTION ---------- */
   .how-we-work {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 80px 40px;
-    gap: 40px;
+    background: var(--cream);
+    padding: 6rem 1rem 4rem;
   }
 
-  .how-we-work-title {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-
-  .how-we-work-title h4 {
-    font-size: 60px;
-    color: #06202B;
-    line-height: 1.2;
-    margin-bottom: 20px;
+  .how-we-work-header {
     text-align: center;
+    margin-bottom: 4rem;
   }
 
-  .how-we-work-content {
-    flex: 3;
+  .how-we-work-header h2 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 3rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .how-we-work-header h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -8px;
+    width: 60px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--navy), var(--teal));
+  }
+
+  .how-we-work-header p {
+    max-width: 600px;
+    margin: .75rem auto 0;
+    color: #444;
+    font-size: 1.15rem;
+  }
+
+  .workflow-container {
     display: flex;
-    gap: 60px;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: stretch;
+    flex-wrap: nowrap;
   }
 
-  .how-we-work-section {
+  .workflow-side {
     flex: 1;
-    min-width: 250px;
+    min-width: 280px;
+    padding: 3rem 2rem;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s, box-shadow .2s;
   }
 
-  .how-we-work-section h3 {
+  .workflow-side:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .workflow-side h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
     font-size: 2rem;
-    color: #06202B;
-    margin-bottom: 1rem;
-    text-align: center;
+    color: var(--navy);
   }
 
-  .how-we-work-section ul {
-    padding-left: 0;
+  .workflow-steps {
     list-style: none;
-    text-align: center;
+    margin: 0;
+    padding: 0;
   }
 
-  .how-we-work-section li {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: #333;
+  .workflow-step {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  .how-we-work-section i {
-    margin-right: 8px;
-    color: #06202B;
+  .step-number {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background: var(--navy);
+    color: var(--cream);
+    font-size: 1.1rem;
   }
 
-  @media (max-width: 768px) {
+  .step-content h4 {
+    margin: .15rem 0 .25rem;
+    color: var(--navy);
+    font-size: 1.2rem;
+  }
+
+  .step-content p {
+    margin: 0;
+    font-size: .95rem;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* --- Expert Side --- */
+  .workflow-side.business {
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .workflow-side.business h3 {
+    color: var(--navy);
+  }
+
+  .workflow-side.business .step-number {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .workflow-side.business .step-content h4 {
+    color: var(--navy);
+  }
+
+  .workflow-side.business .step-content p {
+    color: var(--teal);
+  }
+
+  /* ---------- Accessibility + Responsive ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *:before, *:after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .workflow-container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
     .typewriter h1 {
       font-size: 2.5rem;
+      border: none;
     }
 
     .hero-subtext {
-      font-size: 1.2rem;
-    }
-
-    .how-we-work {
-      padding: 40px 20px;
-    }
-
-    .how-we-work-title h4 {
-      font-size: 2rem;
-    }
-
-    .how-we-work-content {
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .hero-buttons .btn {
-      font-size: 1rem;
+      font-size: 1.25rem;
     }
   }
 </style>
 
 <body>
+  <!-- ===== HERO SECTION ===== -->
   <section class="hero-section">
-    <video autoplay muted loop>
+    <video autoplay muted loop playsinline>
       <source src="https://cdn.pixabay.com/video/2018/07/12/17257-280036012_large.mp4" type="video/mp4">
-      Your browser does not support the video tag.
     </video>
     <div class="hero-content">
       <div class="typewriter">
@@ -222,35 +279,88 @@
       </div>
       <p class="hero-subtext">Bridging Ancient Wisdom with Modern Living.</p>
       <div class="hero-buttons">
-        <a href="/services" class="btn btn-lg">Find Vastu Consultants</a>
-        <a href="/appointment/book" class="btn btn-lg">Book an appointment</a>
+        <a href="/services" class="btn">Find Vastu Consultants</a>
+        <a href="/appointment/book" class="btn">Book an appointment</a>
       </div>
     </div>
   </section>
 
-<section class="how-we-work">
-  <div class="how-we-work-title">
-    <h4>How we work</h4>
-  </div>
-  <div class="how-we-work-content">
-    <div class="how-we-work-section">
-      <h3>For Customers</h3>
-      <ul>
-        <li>1) Login / Signup:<br> Create your account in seconds.</li>
-        <li>2) Fill Details: <br> Tell us about your awesome space.</li>
-        <li>3) Find the Match: <br> Find the best vastu advisors for your needs.</li>
-        <li>4) Get in Touch: <br> Book a consultation. Quick and easy.</li>
-      </ul>
+  <!-- ===== HOW WE WORK SECTION ===== -->
+  <section class="how-we-work">
+    <div class="how-we-work-header">
+      <h2>How&nbsp;We&nbsp;Work</h2>
+      <p>Experience seamless Vastu consultation through our streamlined process designed for both customers and experts.</p>
     </div>
 
-      <div class="divider-line d-none d-md-block"></div>
+    <div class="workflow-container">
+      <!-- Customer Side -->
+      <div class="workflow-side customer">
+        <h3>For Customers</h3>
+        <ul class="workflow-steps">
+          <li class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Login / Signup</h4>
+              <p>Create your account and join our Vastu community.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Fill Details</h4>
+              <p>Tell us about your space and goals.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Find the Match</h4>
+              <p>Discover the perfect advisor for your needs.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Get in Touch</h4>
+              <p>Book and start your journey to harmony.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-      <div class="how-we-work-section" style="list-style: none;">
-        <h3>For Businesses</h3>
-        <li><strong><i class="fa-solid fa-right-to-bracket"></i><br>Login / Signup</strong> – Get on board as a Vastu expert.</li><br>
-        <li><strong><i class="fa-solid fa-building-circle-check"></i><br>List Business</strong> – Add your services and location.</li><br>
-        <li><strong><i class="fa-solid fa-envelope-open-text"></i><br>Get Enquiries</strong> – Sit back as you recieve your leads.</li><br>
-        <li><strong><i class="fa-solid fa-handshake-angle"></i><br>Work</strong> – Interact with the Customer</li>
+      <!-- Expert Side -->
+      <div class="workflow-side business">
+        <h3>For Experts</h3>
+        <ul class="workflow-steps">
+          <li class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Join Our Network</h4>
+              <p>Register and showcase your expertise.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>List Services</h4>
+              <p>Add your specialties and availability.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Receive Inquiries</h4>
+              <p>Get matched with clients who need you.</p>
+            </div>
+          </li>
+          <li class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Provide Guidance</h4>
+              <p>Help clients create harmonious spaces.</p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
