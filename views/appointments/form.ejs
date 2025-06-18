@@ -248,7 +248,25 @@
     margin-top: 10px;
   }
 
+  /* New styles for form errors */
+  .form-errors {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fceae9;
+    border: 1px solid #c0392b;
+    border-radius: 12px;
+    color: #c0392b;
+  }
 
+  .form-errors ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .form-errors li {
+    margin-bottom: 5px;
+  }
   
 
 </style>
@@ -264,7 +282,7 @@
     </div>
   </div>
 
-  <form action="/appointment/book" method="POST" class="form-card" autocomplete="off">
+  <form id="appointmentForm" action="/appointment/book" method="POST" class="form-card" autocomplete="off" novalidate>
     <h2 class="form-title">Let’s Get You Booked</h2>
 
     <div class="form-group">
@@ -318,6 +336,10 @@
       <textarea id="message" name="message" placeholder=" " maxlength="1000"></textarea>
       <label for="message">Additional Message</label>
     </div>
+    
+    <div id="form-errors" class="form-errors" style="display: none;">
+        <ul></ul>
+    </div>
 
     <button type="submit" class="submit-btn">Book Appointment</button>
   </form>
@@ -352,4 +374,61 @@
 </div>
 
   <% } %>
-</div>
+</div> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('appointmentForm');
+        const errorContainer = document.getElementById('form-errors');
+        const errorList = errorContainer.querySelector('ul');
+
+        form.addEventListener('submit', function (event) {
+            const errors = [];
+            errorList.innerHTML = '';
+
+            const name = document.getElementById('name');
+            if (name.value.trim() === '') {
+                errors.push('Full Name is required.');
+            }
+
+            const phone = document.getElementById('phone');
+            if (phone.value.trim() === '') {
+                errors.push('Phone Number is required.');
+            } else if (!/^\d{10}$/.test(phone.value.trim())) {
+                errors.push('Please enter a valid 10-digit phone number.');
+            }
+
+            const businessId = document.getElementById('businessId');
+            if (businessId.value === '') {
+                errors.push('Please select an expert.');
+            }
+
+            const date = document.getElementById('date');
+            if (date.value === '') {
+                errors.push('Preferred Date is required.');
+            }
+
+            const time = document.getElementById('time');
+            if (time.value === '') {
+                errors.push('Preferred Time is required.');
+            }
+
+            const serviceType = document.getElementById('serviceType');
+            if (serviceType.value === '') {
+                errors.push('Please select a service type.');
+            }
+            
+            if (errors.length > 0) {
+                event.preventDefault(); 
+                errorContainer.style.display = 'block';
+                errors.forEach(error => {
+                    const li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.appendChild(li);
+                });
+            } else {
+                errorContainer.style.display = 'none';
+            }
+        });
+    });
+</script>

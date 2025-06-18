@@ -57,6 +57,37 @@ router.post('/appointment/book', isLoggedIn, async (req, res) => {
       statusCode: 500
     });
   }
+  
 });
+
+// DELETE: Delete an appointment
+router.post('/appointments/delete/:id', isLoggedIn, async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      req.flash('error_msg', 'Appointment not found.');
+      return res.redirect('/appointment/book');
+    }
+
+    // Check if the logged-in user owns the appointment
+    if (appointment.user.toString() !== req.user._id.toString()) {
+      req.flash('error_msg', 'You are not authorized to delete this appointment.');
+      return res.redirect('/appointment/book');
+    }
+
+    await Appointment.findByIdAndDelete(appointmentId);
+    req.flash('success_msg', 'Appointment deleted successfully.');
+    res.redirect('/dashboard');
+  } catch (err) {
+    console.error('Error deleting appointment:', err);
+    res.status(500).render('error', {
+      message: 'Failed to delete appointment. Try again later.',
+      statusCode: 500
+    });
+  }
+});
+
 
 module.exports = router;

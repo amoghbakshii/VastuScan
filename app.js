@@ -29,19 +29,24 @@ app.set('views', path.join(__dirname, 'views'));
 dbConfig(); 
 
 
-// Static files
+// Static + Form parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(flash()); 
-
+// Session
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false
 }));
+
+
+app.use(flash()); 
+
+//Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 //Middleware
 app.use((req, res, next) => {

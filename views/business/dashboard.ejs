@@ -5,263 +5,205 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
 <style>
-  
   * {
+    box-sizing: border-box;
     font-family: 'DM Serif Display', serif;
+  }
+
+  body {
+    background-color: #f4f6f8;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 1rem;
+  }
+
+  h1, h3 {
+    color: #06202B;
+  }
+
+  .btn-edit, .btn-delete {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
   }
 
   .btn-edit {
     background-color: #06202B;
     color: #F5EEDD;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    margin-right: 10px;
-    transition: 0.3s;
   }
 
   .btn-edit:hover {
     background-color: #0d3344;
+    transform: scale(1.05);
   }
 
   .btn-delete {
     background-color: #E63946;
     color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    transition: 0.3s;
   }
 
   .btn-delete:hover {
     background-color: #c92b38;
+    transform: scale(1.05);
   }
 
-  .card.border-left-info {
-    border-left: 5px solid #17a2b8;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    transition: 0.3s;
-  }
-
-  .card.border-left-info:hover {
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-  }
-
-  /* Flex layout for listings + appointments */
-  .flex-layout {
-    display: flex;
-    flex-wrap: wrap;
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 
-  .business-section,
-  .appointment-section {
-    flex: 1 1 100%;
-  }
-
   @media (min-width: 992px) {
-    .business-section,
-    .appointment-section {
-      flex: 1 1 48%;
+    .dashboard-grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
-  /* Timeline styles */
-  .timeline {
-    position: relative;
-    padding-left: 20px;
+  .card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  }
+
+  .map-container {
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
     margin-top: 1rem;
   }
 
-  .timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 6px;
-    width: 2px;
-    background: #17a2b8;
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+    margin-top: 1rem;
+    border-left: 3px solid #17a2b8;
   }
 
   .timeline-step {
     position: relative;
-    padding-left: 20px;
     margin-bottom: 10px;
+    color: #06202B;
   }
 
   .timeline-step::before {
     content: '';
     position: absolute;
-    left: -4px;
-    top: 3px;
-    width: 10px;
-    height: 10px;
+    left: -10px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
     background-color: #17a2b8;
     border-radius: 50%;
+    border: 2px solid white;
   }
 
-  @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .text-danger {
+    color: #E63946;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes slideFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes bounceHover {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.card {
-  animation: fadeInUp 0.6s ease forwards;
-  opacity: 0;
-}
-
-.card:nth-of-type(1) { animation-delay: 0.1s; }
-.card:nth-of-type(2) { animation-delay: 0.2s; }
-.card:nth-of-type(3) { animation-delay: 0.3s; }
-/* keep going if you want more stagger */
-
-.btn-edit,
-.btn-delete {
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.btn-edit:hover,
-.btn-delete:hover {
-  animation: bounceHover 0.3s ease;
-}
-
-.timeline-step {
-  animation: slideFadeIn 0.4s ease;
-  opacity: 0;
-}
-
-.timeline-step:nth-child(1) {
-  animation-delay: 0.1s;
-  animation-fill-mode: forwards;
-}
-
-.timeline-step:nth-child(2) {
-  animation-delay: 0.2s;
-  animation-fill-mode: forwards;
-}
-
-.timeline-step:nth-child(3) {
-  animation-delay: 0.3s;
-  animation-fill-mode: forwards;
+  .empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 </style>
 
-<div class="container my-5">
-  <h1 id="greeting" class="mb-4">Dashboard</h1>
+<div class="container">
+  <h1 id="greeting" class="mb-4"></h1>
+  <div class="dashboard-grid">
 
-  <div class="flex-layout">
-    <!-- BUSINESS LISTINGS -->
-    <div class="business-section">
+    <!-- Business Listings -->
+    <div>
       <h3>Your Listings</h3>
       <% if (businesses.length === 0) { %>
-        <p>No businesses listed yet. <a href="/business/list-business">Click here to list one!</a></p>
-      <% } else { %>
+  <div class="card empty-card text-center">
+    <h4>No Listings Yet</h4>
+    <p style="margin: 0.5rem 0;">You haven't listed any businesses yet. Let's fix that!</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Empty illustration" width="120" style="margin: 1rem auto;" />
+    <a href="/business/list-business" class="btn-edit" style="margin-top: 0.5rem;">List Your First Business</a>
+  </div>
+<% } else { %>
         <% businesses.forEach((business, index) => { %>
-          <div class="card shadow-sm mb-4">
-            <div class="card-body">
-              <h4 class="card-title"><%= business.name %></h4>
-              <h6 class="card-subtitle mb-2 text-muted"><%= business.serviceType %></h6>
-              <p><strong>Address:</strong> <%= business.address %></p>
-              <p><strong>Contact:</strong> <%= business.contact %></p>
-              <p><strong>Description:</strong> <%= business.description || 'N/A' %></p>
-
-              <div id="map<%= index %>" style="height: 200px;" class="my-3 rounded shadow-sm"></div>
-
-              <p class="text-muted">
-                <small>Listed on: <%= business.createdAt ? business.createdAt.toDateString() : 'Unknown date' %></small>
-              </p>
-
-              <div class="mt-3">
-                <a href="/business/edit/<%= business._id %>" class="btn-edit">Edit</a>
-                <form action="/business/delete/<%= business._id %>" method="POST" style="display: inline;">
-                  <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this listing?')">Delete</button>
-                </form>
-              </div>
+          <div class="card">
+            <h4><%= business.name %></h4>
+            <p><strong>Service:</strong> <%= business.serviceType %></p>
+            <p><strong>Address:</strong> <%= business.address %></p>
+            <p><strong>Contact:</strong> <%= business.contact %></p>
+            <p><strong>Description:</strong> <%= business.description || 'N/A' %></p>
+            <div id="map<%= index %>" class="map-container"></div>
+            <p class="text-muted"><small>Listed on: <%= business.createdAt ? business.createdAt.toDateString() : 'Unknown date' %></small></p>
+            <div style="margin-top: 10px;">
+              <a href="/business/edit/<%= business._id %>" class="btn-edit">Edit</a>
+              <form action="/business/delete/<%= business._id %>" method="POST" style="display: inline;">
+                <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this listing?')">Delete</button>
+              </form>
             </div>
           </div>
 
-          <!-- Mapbox Init Script -->
           <script>
             mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
-
             const map<%= index %> = new mapboxgl.Map({
               container: 'map<%= index %>',
               style: 'mapbox://styles/mapbox/streets-v11',
               center: [<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>],
               zoom: 12
             });
-
-            new mapboxgl.Marker()
-              .setLngLat([<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>])
-              .addTo(map<%= index %>);
+            new mapboxgl.Marker().setLngLat([<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>]).addTo(map<%= index %>);
           </script>
         <% }) %>
       <% } %>
     </div>
 
-    <!-- UPCOMING APPOINTMENTS -->
-    <div class="appointment-section">
+    <!-- Appointments -->
+    <div>
       <h3>Upcoming Appointments</h3>
       <% if (!appointments || appointments.length === 0) { %>
-        <p>No appointments yet, chill time 😎</p>
-      <% } else { %>
+  <div class="card empty-card text-center">
+    <h4>No Appointments Yet</h4>
+    <p style="margin: 0.5rem 0;">No upcoming appointments</p>
+    <img src="https://cdn-icons-png.flaticon.com/512/5408/5408495.png" alt="No appointments" width="120" style="margin: 1rem auto;" />
+    <a href="/appointment/book" class="btn-edit" style="margin-top: 0.5rem;">Book Appointment</a>
+  </div>
+<% } else { %>
         <% appointments.forEach(appt => { %>
-          <div class="card border-left-info shadow mb-4 py-2 px-3">
-            <div class="card-body">
-              <h4 class="card-title mb-2"><%= appt.userRefName %> - <%= appt.phone %> </h4>
-              <p><strong>Service - </strong> <%= appt.serviceType %></p>
-              <p><strong>Date - </strong> <%= new Date(appt.date).toLocaleDateString() %></p>
-              <p><strong>Time - </strong> <%= appt.time %></p>
-              <p><strong>Business - </strong> <%= appt.business.name %></p>
-              <% if (appt.message) { %>
-                <p><strong>Customer Message - <br></strong> <%= appt.message %></p>
+          <div class="card">
+            <h4><%= appt.userRefName %> - <%= appt.phone %></h4>
+            <p><strong>Service:</strong> <%= appt.serviceType %></p>
+            <p><strong>Date:</strong> <%= new Date(appt.date).toLocaleDateString() %></p>
+            <p><strong>Time:</strong> <%= appt.time %></p>
+            <p><strong>Business:</strong> <%= appt.business.name %></p>
+            <% if (appt.message) { %>
+              <p><strong>Customer Message:</strong><br><%= appt.message %></p>
+            <% } %>
+
+            <div class="timeline">
+              <div class="timeline-step"><strong>Status:</strong> Requested</div>
+              <% if (appt.status === 'Confirmed' || appt.status === 'Completed') { %>
+                <div class="timeline-step">Confirmed</div>
               <% } %>
-
-              <!-- Status Timeline -->
-              <div class="timeline">
-                <div class="timeline-step"><strong>Status - </strong> Requested</div>
-                <% if (appt.status === 'Confirmed' || appt.status === 'Completed') { %>
-                  <div class="timeline-step">Confirmed</div>
-                <% } %>
-                <% if (appt.status === 'Completed') { %>
-                  <div class="timeline-step">Completed</div>
-                <% } %>
-                <% if (appt.status === 'Cancelled') { %>
-                  <div class="timeline-step text-danger">Cancelled</div>
-
-                  
-                <% } %>
-              </div>
+              <% if (appt.status === 'Completed') { %>
+                <div class="timeline-step">Completed</div>
+              <% } %>
+              <% if (appt.status === 'Cancelled') { %>
+                <div class="timeline-step text-danger">Cancelled</div>
+              <% } %>
             </div>
           </div>
         <% }) %>
@@ -270,21 +212,16 @@
   </div>
 </div>
 
-
-<h1 id="greeting" class="mb-4"></h1>
-
 <script>
-  const hours = new Date().getHours();
-  let greeting = "";
+  document.addEventListener("DOMContentLoaded", function () {
+    const hours = new Date().getHours();
+    let greeting = "";
 
-  if (hours < 12) {
-    greeting = "Good Morning";
-  } else if (hours < 17) {
-    greeting = "Good Afternoon";
-  } else {
-    greeting = "Good Evening";
-  }
+    if (hours < 12) greeting = "Good Morning";
+    else if (hours < 17) greeting = "Good Afternoon";
+    else greeting = "Good Evening";
 
-  const userName = "<%= userName %>";
-  document.getElementById("greeting").textContent = `${greeting}, ${userName} `;
+    const userName = "<%= userName %>";
+    document.getElementById("greeting").textContent = `${greeting}, ${userName}`;
+  });
 </script>

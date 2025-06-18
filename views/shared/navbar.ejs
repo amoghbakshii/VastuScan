@@ -6,7 +6,7 @@
 <!-- Styling -->
 <style>
   .navbar {
-    background-color: #fff; /* Add background to prevent overlap transparency */
+    background-color: #fff;
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
@@ -16,17 +16,30 @@
     font-family: "DM Serif Display", serif;
     font-size: 18px;
     padding: 8px 16px;
+    text-decoration: none;
   }
 
   .login {
     background-color: #06202B;
     border-radius: 30px;
+    padding: 6px 18px;
+    transition: all 0.3s ease;
+  }
+
+  .login:hover {
+    background-color: #04404f;
   }
 
   .nav-link.active {
     font-weight: bold;
     color: #077a7d !important;
     border-bottom: 2px solid #077A7D;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   @media (max-width: 991.98px) {
@@ -38,11 +51,17 @@
 
     .nav-item {
       width: 100%;
+      text-align: center;
     }
 
     .nav-item a {
       display: block;
       width: 100%;
+    }
+
+    .user-info {
+      flex-direction: column;
+      gap: 8px;
     }
   }
 </style>
@@ -60,7 +79,7 @@
           <a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <%= currentPath === '/about' ? 'active' : '' %>" href="/about">About Us</a>
+          <a class="nav-link <%= currentPath === '/appointment/book' ? 'active' : '' %>" href="/appointment/book">Appointments</a>
         </li>
         <li class="nav-item">
           <a class="nav-link <%= currentPath === '/customer/showList' ? 'active' : '' %>" href="/customer/showList">Find Experts</a>
@@ -68,15 +87,17 @@
         <li class="nav-item">
           <a class="nav-link <%= currentPath === '/business/list-business' ? 'active' : '' %>" href="/business/list-business">List Your Business</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <%= currentPath === '/contact' ? 'active' : '' %>" href="/contact">Contact Us</a>
-        </li>
 
         <% if (typeof user !== 'undefined' && user) { %>
           <li class="nav-item ms-lg-3">
-            <a class="nav-link" href="/dashboard" role="button">
-              <i class="fa-solid fa-user"></i> &nbsp;<%= user.name %>
-            </a>
+            <div class="user-info">
+              <a class="nav-link" href="/dashboard">
+                <i class="fa-solid fa-user"></i> &nbsp;<%= user.name %>
+              </a>
+              <a class="nav-link text-danger" href="/auth/logout" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+              </a>
+            </div>
           </li>
         <% } else { %>
           <li class="nav-item ms-lg-3">
