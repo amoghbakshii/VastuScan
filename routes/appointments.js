@@ -9,6 +9,7 @@ router.get('/appointment/book', isLoggedIn, async (req, res) => {
   try {
     const success = req.query.success;
     const userId = req.user._id;
+    const { businessId } = req.query; 
 
     const appointments = await Appointment.find({ user: userId })
       .populate('business')
@@ -16,7 +17,7 @@ router.get('/appointment/book', isLoggedIn, async (req, res) => {
 
     const businesses = await Business.find();
 
-    res.render('appointments/form', { businesses, success, appointments });
+    res.render('appointments/form', { businesses, success, appointments ,selectedBusinessId: businessId });
   } catch (err) {
     console.error('Error fetching appointments:', err);
     res.status(500).render('error', {

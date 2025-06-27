@@ -1,21 +1,33 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- 
+  Appointment Booking Page
+  - Left pane: Info
+  - Right pane: Tabbed card (Book form / My Appointments)
+  - Responsive, modern UI
+-->
+
 <style>
-  * {
-    font-family: "DM Serif Display", serif;
-  }
-  .form-wrapper {
+  /* Import Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap');
+
+  /* Reset and base styles */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', sans-serif; }
+
+  /* Layout wrapper */
+  .page-wrapper {
     display: flex;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
     min-height: 90vh;
     background: linear-gradient(135deg, #eaf6f6, #ffffff);
-    font-family: "DM Serif Display", serif;
-    padding: 60px 20px;
+    padding: 50px 20px;
     gap: 40px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
 
+  /* Left info pane */
   .left-pane {
     flex: 1;
     display: flex;
@@ -27,32 +39,30 @@
     background-size: cover;
     background-position: center;
     border-radius: 20px;
-    min-width: 300px; 
+    min-width: 320px;
+    max-width: 450px;
+    align-self: stretch;
   }
-
-  .left-pane h1 {
-    font-size: 35px;
-    margin: 10px 10px 10px 10px;
-  }
-
-  .left-pane p {
-    font-size: 18px;
-    line-height: 1.6;
-    max-width: 500px;
-    margin: 10px 10px 10px 10px;
-  }
-
-  .text-class {
-    background-color: rgba(255, 255, 255, 0.5);
+  .left-pane-text {
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    height: 400px;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 30px;
+    border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.4);
   }
+  .left-pane h1 {
+    font-family: "DM Serif Display", serif;
+    font-size: 38px;
+    margin-bottom: 15px;
+  }
+  .left-pane p {
+    font-size: 17px;
+    line-height: 1.7;
+  }
 
-  .form-card, .appointments-card {
+  /* Main content card (right) */
+  .main-content-card {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -60,35 +70,62 @@
     width: 100%;
     padding: 40px;
     transition: transform 0.3s ease;
-    flex: 1; 
-    min-width: 300px;
+    flex: 1.5;
+    min-width: 320px;
+  }
+  .main-content-card:hover { transform: translateY(-5px); }
+
+  /* Tab navigation styles */
+  .tab-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e0e7ec;
+  }
+  .tab-link {
+    padding: 12px 25px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #6a7b85;
+    position: relative;
+    top: 2px;
+    transition: color 0.3s ease;
+  }
+  .tab-link.active {
+    color: #06202B;
+    border-bottom: 3px solid #06202B;
   }
 
-  .form-card:hover, .appointments-card:hover {
-    transform: scale(1.01);
+  /* Tab content visibility */
+  .tab-content { display: none; }
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  .form-title {
-    font-size: 30px;
+  /* Card title */
+  .card-title {
+    font-family: "DM Serif Display", serif;
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 25px;
     text-align: center;
     color: #06202B;
   }
 
-  .form-title :hover{
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    text-align: center;
-    color: #06202B;
-  }
-
+  /* Form styles */
   .form-group {
     position: relative;
     margin-bottom: 30px;
   }
-
   .form-group input,
   .form-group select,
   .form-group textarea {
@@ -98,157 +135,130 @@
     border-radius: 12px;
     background: none;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
     color: #06202B;
     transition: 0.3s ease;
   }
-
   .form-group label {
     position: absolute;
-    top: 12px;
+    top: 14px;
     left: 15px;
     background: #fff;
-    color: #999;
+    color: #888;
     padding: 0 5px;
-    font-size: 15px;
+    font-size: 16px;
     transition: 0.3s ease;
     pointer-events: none;
   }
-
+  /* Floating label effect */
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: #0a3a5b;
+    outline: none;
+  }
   .form-group input:focus + label,
   .form-group input:not(:placeholder-shown) + label,
   .form-group textarea:focus + label,
   .form-group textarea:not(:placeholder-shown) + label,
-  .form-group select:focus + label,
-  .form-group select:not([value=""]) + label {
+  .form-group select:not([value=""]):valid + label {
     top: -10px;
     left: 10px;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 500;
     color: #0a3a5b;
   }
-
   .form-group textarea {
     resize: vertical;
     min-height: 100px;
   }
 
+  /* Submit button */
   .submit-btn {
     width: 100%;
-    padding: 15px;
+    padding: 16px;
     background: linear-gradient(135deg, #06202B, #0a3a5b);
     color: #fff;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 600;
+    font-family: 'Poppins', sans-serif;
     border: none;
     border-radius: 14px;
     cursor: pointer;
     transition: 0.3s ease;
   }
-
   .submit-btn:hover {
     background: linear-gradient(135deg, #0a3a5b, #06202B);
+    transform: scale(1.02);
   }
 
+  /* Appointment list styles */
+  .appointment-list {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 15px;
+  }
   .appointment-item {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .appointment-item:last-child {
-    border-bottom: none; 
-  }
-
-  .appointment-item p {
-    margin-bottom: 5px;
-  }
-
-  @media (max-width: 900px) {
-    .form-wrapper {
-      flex-direction: column;
-      padding: 40px 20px;
-      align-items: center; 
-    }
-
-    .left-pane {
-      align-items: center;
-      text-align: center;
-      min-width: unset; 
-    }
-
-    .form-card, .appointments-card {
-      min-width: unset; 
-    }
-  }
-
-  
-  .timeline {
-    position: relative;
-    margin-left: 20px;
-    padding-left: 20px;
-    border-left: 3px solid #0a3a5b;
-  }
-
-  .timeline::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -8px;
-    height: 100%;
-    width: 3px;
-    background: linear-gradient(#0a3a5b, #06202B);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 40px;
-    padding-left: 30px;
-  }
-
-  .timeline-item::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    left: -15px;
-    width: 15px;
-    height: 15px;
-    background-color: #fff;
-    border: 3px solid #0a3a5b;
-    border-radius: 50%;
-    z-index: 1;
-  }
-
-  .timeline-item h3 {
-    margin: 0;
-    font-size: 20px;
-    color: #06202B;
-  }
-
-  .timeline-item .status {
-    font-weight: bold;
-    margin-top: 5px;
-  }
-
-  .timeline-item .status.Pending {
-    color: #f39c12;
-  }
-
-  .timeline-item .status.Confirmed {
-    color: #27ae60;
-  }
-
-  .timeline-item .status.Cancelled {
-    color: #c0392b;
-  }
-
-  .timeline-item .details {
-    background: #f7fafa;
-    padding: 15px;
+    background: #f8fafc;
+    padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #eef2f5;
+    transition: box-shadow 0.3s ease;
+  }
+  .appointment-item:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+  }
+  .appointment-item h3 {
+    font-family: "DM Serif Display", serif;
+    font-size: 22px;
+    color: #06202B;
+    margin-bottom: 15px;
+  }
+  .appointment-item p {
+    font-size: 15px;
+    color: #334155;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .appointment-item p strong {
+    color: #06202B;
+    font-weight: 600;
   }
 
-  /* New styles for form errors */
+  /* Status badge styles */
+  .status-badge {
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+  }
+  .status-badge.Pending { background-color: #fffbeb; color: #f39c12; }
+  .status-badge.Confirmed { background-color: #f0fdf4; color: #27ae60; }
+  .status-badge.Cancelled { background-color: #fef2f2; color: #c0392b; }
+
+  /* Cancel button for appointments */
+  .cancel-btn {
+    display: inline-block;
+    width: auto;
+    padding: 8px 18px;
+    margin-top: 15px;
+    background: #fceae9;
+    color: #c0392b;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid #c0392b;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .cancel-btn:hover {
+    background: #c0392b;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* Error message styles */
   .form-errors {
     margin-bottom: 20px;
     padding: 15px;
@@ -257,23 +267,28 @@
     border-radius: 12px;
     color: #c0392b;
   }
+  .form-errors ul { margin: 0; padding: 0; list-style-position: inside; }
+  .form-errors li { margin-bottom: 5px; }
 
-  .form-errors ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  /* Responsive adjustments */
+  @media (max-width: 950px) {
+    .page-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .left-pane {
+      max-width: 700px;
+      width: 100%;
+      align-self: auto;
+    }
   }
-
-  .form-errors li {
-    margin-bottom: 5px;
-  }
-  
-
 </style>
 
-<div class="form-wrapper">
+<div class="page-wrapper">
+
+  <!-- Left Info Pane -->
   <div class="left-pane">
-    <div class="text-class">
+    <div class="left-pane-text">
       <h1>Book an Appointment</h1>
       <p>
         Schedule a consultation for Vastu, interior design, site visits, and more.
@@ -282,153 +297,201 @@
     </div>
   </div>
 
-  <form id="appointmentForm" action="/appointment/book" method="POST" class="form-card" autocomplete="off" novalidate>
-    <h2 class="form-title">Let’s Get You Booked</h2>
+  <!-- Main Content Card (Tabs: Book / My Appointments) -->
+  <div class="main-content-card">
 
-    <div class="form-group">
-      <input type="text" id="name" name="name" required placeholder=" " />
-      <label for="name">Full Name</label>
-    </div>
-
-    <div class="form-group">
-      <input type="tel" id="phone" name="phone" required placeholder=" " pattern="\d{10}" />
-      <label for="phone">Phone Number</label>
-    </div>
-
-    <div class="form-group">
-      <input type="email" id="email" name="email" placeholder=" " />
-      <label for="email">Email</label>
-    </div>
-
-    <div class="form-group">
-      <select id="businessId" name="businessId" required>
-        <option value="" disabled selected hidden></option>
-        <% businesses.forEach(business => { %>
-          <option value="<%= business._id %>"><%= business.name %></option>
-        <% }) %>
-      </select>
-      <label for="businessId">Select your Expert</label>
-    </div>
-
-    <div class="form-group">
-      <input type="date" id="date" name="date" required placeholder=" " />
-      <label for="date">Preferred Date</label>
-    </div>
-
-    <div class="form-group">
-      <input type="time" id="time" name="time" required placeholder=" " />
-      <label for="time">Preferred Time</label>
-    </div>
-
-    <div class="form-group">
-      <select id="serviceType" name="serviceType" required>
-        <option value="" disabled selected hidden></option>
-        <option value="Vastu Consultation">Vastu Consultation</option>
-        <option value="Interior Design">Interior Design</option>
-        <option value="Follow-up">Follow-up</option>
-        <option value="Site Visit">Site Visit</option>
-        <option value="Other">Other</option>
-      </select>
-      <label for="serviceType">Type of Service</label>
-    </div>
-
-    <div class="form-group">
-      <textarea id="message" name="message" placeholder=" " maxlength="1000"></textarea>
-      <label for="message">Additional Message</label>
-    </div>
-    
-    <div id="form-errors" class="form-errors" style="display: none;">
-        <ul></ul>
-    </div>
-
-    <button type="submit" class="submit-btn">Book Appointment</button>
-  </form>
-
-  <% if (appointments && appointments.length > 0) { %>
-    <div class="appointments-card">
-  <h2 class="form-title">Your Booked Appointments</h2>
-  
-  <% appointments.forEach(appointment => { %>
-    <div class="appointment-item" style="background: #f7fafa; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-      <% if (appointment.business && appointment.business.name) { %>
-        <h3>Expert - <%= appointment.business.name %></h3>
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-link active" data-tab="book-form">Book New</button>
+      <% if (appointments && appointments.length > 0) { %>
+        <button class="tab-link" data-tab="my-appointments">My Appointments</button>
       <% } %>
-      <p><strong>Date - </strong> <%= appointment.date.toDateString() %></p>
-      <p><strong>Time - </strong> <%= appointment.time %></p>
-      <p><strong>Service - </strong> <%= appointment.serviceType %></p>
-      <p><strong>Status - </strong> 
-        <span style="color: <%= appointment.status === 'Pending' ? '#f39c12' : appointment.status === 'Confirmed' ? '#27ae60' : '#c0392b' %>;">
-          <%= appointment.status %>
-        </span>
-      </p>
-    
+    </div>
 
-      <% if (appointment.message && appointment.message.length > 0) { %>
-        <div style="margin-top: 10px; padding: 10px; background-color: #eef6f8; border-left: 4px solid #0a3a5b; border-radius: 8px;">
-          <strong>Customer Message - </strong>
-          <p style="margin: 5px 0 0;"><%= appointment.message %></p>
+    <!-- Book Appointment Form Tab -->
+    <div id="book-form" class="tab-content active">
+      <h2 class="card-title">Let’s Get You Booked</h2>
+      <form id="appointmentForm" action="/appointment/book" method="POST" autocomplete="off" novalidate>
+        <!-- Full Name -->
+        <div class="form-group">
+          <input type="text" id="name" name="name" required placeholder=" " />
+          <label for="name">Full Name</label>
         </div>
-      <% } %>
+        <!-- Phone Number -->
+        <div class="form-group">
+          <input type="tel" id="phone" name="phone" required placeholder=" " pattern="\d{10}" />
+          <label for="phone">Phone Number</label>
+        </div>
+        <!-- Email (Optional) -->
+        <div class="form-group">
+          <input type="email" id="email" name="email" placeholder=" " />
+          <label for="email">Email (Optional)</label>
+        </div>
+        <!-- Select Expert -->
+        <div class="form-group">
+          <select id="businessId" name="businessId" required>
+            <option value="" disabled selected hidden></option>
+            <% businesses.forEach(business => { %>
+              <option 
+                value="<%= business._id %>"
+                <%= (typeof selectedBusinessId !== 'undefined' && business._id.toString() === selectedBusinessId.toString()) ? 'selected' : '' %>
+              >
+                <%= business.name %>
+              </option>
+            <% }) %>
+          </select>
+          <label for="businessId">Select your Expert</label>
+        </div>
+        <!-- Preferred Date -->
+        <div class="form-group">
+          <input type="date" id="date" name="date" required placeholder=" " min="<%= new Date().toISOString().split('T')[0] %>" />
+          <label for="date">Preferred Date</label>
+        </div>
+        <!-- Preferred Time -->
+        <div class="form-group">
+          <input type="time" id="time" name="time" required placeholder=" " />
+          <label for="time">Preferred Time</label>
+        </div>
+        <!-- Service Type -->
+        <div class="form-group">
+          <select id="serviceType" name="serviceType" required>
+            <option value="" disabled selected hidden></option>
+            <option value="Vastu Consultation">Vastu Consultation</option>
+            <option value="Interior Design">Interior Design</option>
+            <option value="Follow-up">Follow-up</option>
+            <option value="Site Visit">Site Visit</option>
+            <option value="Other">Other</option>
+          </select>
+          <label for="serviceType">Type of Service</label>
+        </div>
+        <!-- Additional Message -->
+        <div class="form-group">
+          <textarea id="message" name="message" placeholder=" " maxlength="1000"></textarea>
+          <label for="message">Additional Message</label>
+        </div>
+        <!-- Error Messages -->
+        <div id="form-errors" class="form-errors" style="display: none;">
+          <ul></ul>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Book Appointment</button>
+      </form>
     </div>
-  <% }) %>
+
+    <!-- My Appointments Tab (if any appointments exist) -->
+    <% if (appointments && appointments.length > 0) { %>
+      <div id="my-appointments" class="tab-content">
+        <h2 class="card-title">Your Booked Appointments</h2>
+        <div class="appointment-list">
+          <% appointments.forEach(appointment => { %>
+            <div class="appointment-item">
+              <!-- Expert Name -->
+              <% if (appointment.business && appointment.business.name) { %>
+                <h3>Expert: <%= appointment.business.name %></h3>
+              <% } %>
+              <!-- Appointment Details -->
+              <p><strong>Date:</strong> <span><%= appointment.date.toDateString() %></span></p>
+              <p><strong>Time:</strong> <span><%= appointment.time %></span></p>
+              <p><strong>Service:</strong> <span><%= appointment.serviceType %></span></p>
+              <p>
+                <strong>Status:</strong>
+                <span class="status-badge <%= appointment.status %>">
+                  <%= appointment.status %>
+                </span>
+              </p>
+              <!-- User Message (if any) -->
+              <% if (appointment.message && appointment.message.trim().length > 0) { %>
+                <p style="flex-direction: column; align-items: flex-start; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ddd;">
+                  <strong>Your Message:</strong>
+                  <span style="font-style: italic; color: #556270; margin-top: 5px;"><%= appointment.message %></span>
+                </p>
+              <% } %>
+              <!-- Cancel Appointment Button -->
+              <form action="/appointments/delete/<%= appointment._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                <button type="submit" class="cancel-btn">Cancel Appointment</button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
 </div>
 
-  <% } %>
-</div> 
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('appointmentForm');
-        const errorContainer = document.getElementById('form-errors');
-        const errorList = errorContainer.querySelector('ul');
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- Tab Functionality ---
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-        form.addEventListener('submit', function (event) {
-            const errors = [];
-            errorList.innerHTML = '';
-
-            const name = document.getElementById('name');
-            if (name.value.trim() === '') {
-                errors.push('Full Name is required.');
-            }
-
-            const phone = document.getElementById('phone');
-            if (phone.value.trim() === '') {
-                errors.push('Phone Number is required.');
-            } else if (!/^\d{10}$/.test(phone.value.trim())) {
-                errors.push('Please enter a valid 10-digit phone number.');
-            }
-
-            const businessId = document.getElementById('businessId');
-            if (businessId.value === '') {
-                errors.push('Please select an expert.');
-            }
-
-            const date = document.getElementById('date');
-            if (date.value === '') {
-                errors.push('Preferred Date is required.');
-            }
-
-            const time = document.getElementById('time');
-            if (time.value === '') {
-                errors.push('Preferred Time is required.');
-            }
-
-            const serviceType = document.getElementById('serviceType');
-            if (serviceType.value === '') {
-                errors.push('Please select a service type.');
-            }
-            
-            if (errors.length > 0) {
-                event.preventDefault(); 
-                errorContainer.style.display = 'block';
-                errors.forEach(error => {
-                    const li = document.createElement('li');
-                    li.textContent = error;
-                    errorList.appendChild(li);
-                });
-            } else {
-                errorContainer.style.display = 'none';
-            }
+    tabLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const tabId = link.getAttribute('data-tab');
+        // Remove active from all tabs, add to clicked
+        tabLinks.forEach(item => item.classList.remove('active'));
+        link.classList.add('active');
+        // Show the selected tab content
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+          if (content.id === tabId) {
+            content.classList.add('active');
+          }
         });
+      });
     });
+
+    // --- Form Validation ---
+    const form = document.getElementById('appointmentForm');
+    if (form) {
+      const errorContainer = document.getElementById('form-errors');
+      const errorList = errorContainer.querySelector('ul');
+
+      form.addEventListener('submit', function (event) {
+        const errors = [];
+        errorList.innerHTML = '';
+
+        // Validate Full Name
+        const name = document.getElementById('name');
+        if (name.value.trim() === '') errors.push('Full Name is required.');
+
+        // Validate Phone Number (10 digits)
+        const phone = document.getElementById('phone');
+        if (phone.value.trim() === '') {
+          errors.push('Phone Number is required.');
+        } else if (!/^\d{10}$/.test(phone.value.trim())) {
+          errors.push('Please enter a valid 10-digit phone number.');
+        }
+
+        // Validate Expert selection
+        const businessId = document.getElementById('businessId');
+        if (!businessId.value) errors.push('Please select an expert.');
+
+        // Validate Date
+        const date = document.getElementById('date');
+        if (!date.value) errors.push('Preferred Date is required.');
+
+        // Validate Time
+        const time = document.getElementById('time');
+        if (!time.value) errors.push('Preferred Time is required.');
+
+        // Validate Service Type
+        const serviceType = document.getElementById('serviceType');
+        if (!serviceType.value) errors.push('Please select a service type.');
+
+        // If errors, prevent submit and show messages
+        if (errors.length > 0) {
+          event.preventDefault();
+          errorContainer.style.display = 'block';
+          errors.forEach(error => {
+            const li = document.createElement('li');
+            li.textContent = error;
+            errorList.appendChild(li);
+          });
+          errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          errorContainer.style.display = 'none';
+        }
+      });
+    }
+  });
 </script>

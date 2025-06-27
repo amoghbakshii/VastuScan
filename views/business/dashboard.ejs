@@ -1,30 +1,31 @@
 <% layout('layouts/boilerplate') %>
 
-<!-- Mapbox CSS -->
+<!-- Mapbox CSS & JS -->
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
 <style>
+  /* Global Styles */
   * {
     box-sizing: border-box;
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Poppins', sans-serif;
   }
-
   body {
     background-color: #f4f6f8;
     margin: 0;
   }
-
   .container {
     max-width: 1200px;
     margin: auto;
     padding: 2rem 1rem;
   }
-
-  h1, h3 {
+  h3 {
     color: #06202B;
+    font-weight: 600;
+    margin-left: 2px;
   }
 
+  /* Button Styles */
   .btn-edit, .btn-delete {
     padding: 10px 20px;
     border: none;
@@ -33,39 +34,37 @@
     font-size: 0.9rem;
     transition: all 0.3s ease;
   }
-
   .btn-edit {
     background-color: #06202B;
     color: #F5EEDD;
+    text-decoration: none;
   }
-
   .btn-edit:hover {
     background-color: #0d3344;
     transform: scale(1.05);
   }
-
   .btn-delete {
     background-color: #E63946;
     color: white;
   }
-
   .btn-delete:hover {
     background-color: #c92b38;
     transform: scale(1.05);
   }
 
+  /* Dashboard Grid Layout */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
   @media (min-width: 992px) {
     .dashboard-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
 
+  /* Card Styles */
   .card {
     background-color: white;
     border-radius: 12px;
@@ -73,12 +72,12 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     transition: 0.3s ease;
   }
-
   .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   }
 
+  /* Map Container */
   .map-container {
     height: 200px;
     border-radius: 8px;
@@ -86,19 +85,18 @@
     margin-top: 1rem;
   }
 
+  /* Timeline Styles */
   .timeline {
     position: relative;
     padding-left: 30px;
     margin-top: 1rem;
     border-left: 3px solid #17a2b8;
   }
-
   .timeline-step {
     position: relative;
     margin-bottom: 10px;
     color: #06202B;
   }
-
   .timeline-step::before {
     content: '';
     position: absolute;
@@ -111,44 +109,55 @@
     border: 2px solid white;
   }
 
+  /* Utility Classes */
   .text-danger {
     color: #E63946;
   }
-
   .empty-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
 </style>
 
 <div class="container">
-  <h1 id="greeting" class="mb-4"></h1>
+  <!-- Dynamic Greeting -->
+  <h1 id="greeting" class="mb-4" style="font-family: 'DM Serif Display', serif;"></h1>
   <div class="dashboard-grid">
 
-    <!-- Business Listings -->
+    <!-- Business Listings Section -->
     <div>
       <h3>Your Listings</h3>
+      <br>
       <% if (businesses.length === 0) { %>
-  <div class="card empty-card text-center">
-    <h4>No Listings Yet</h4>
-    <p style="margin: 0.5rem 0;">You haven't listed any businesses yet. Let's fix that!</p>
-    <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Empty illustration" width="120" style="margin: 1rem auto;" />
-    <a href="/business/list-business" class="btn-edit" style="margin-top: 0.5rem;">List Your First Business</a>
-  </div>
-<% } else { %>
+        <!-- Empty State for Listings -->
+        <div class="card empty-card text-center">
+          <h4>No Listings Yet</h4>
+          <p style="margin: 0.5rem 0;">You haven't listed any businesses yet. Let's fix that!</p>
+          <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Empty illustration" width="120" style="margin: 1rem auto;" />
+          <a href="/business/list-business" class="btn-edit" style="margin-top: 0.5rem;">List Your First Business</a>
+        </div>
+      <% } else { %>
         <% businesses.forEach((business, index) => { %>
           <div class="card">
-            <h4><%= business.name %></h4>
+            <!-- Business Details -->
+            <h4 style="font-weight: 600;"><%= business.name %></h4>
             <p><strong>Service:</strong> <%= business.serviceType %></p>
-            <p><strong>Address:</strong> <%= business.address %></p>
-            <p><strong>Contact:</strong> <%= business.contact %></p>
+            <p>
+              <strong>Address:</strong>
+              <%= business.address.houseNo %>, <%= business.address.area %>, <%= business.address.road %>,
+              <%= business.address.city %>, <%= business.address.state %> - <%= business.address.pincode %>
+            </p>
+            <p><strong>Contact:</strong> <%= business.contact.phone %></p>
             <p><strong>Description:</strong> <%= business.description || 'N/A' %></p>
+            <!-- Mapbox Map -->
             <div id="map<%= index %>" class="map-container"></div>
-            <p class="text-muted"><small>Listed on: <%= business.createdAt ? business.createdAt.toDateString() : 'Unknown date' %></small></p>
+            <p class="text-muted">
+              <small>Listed on: <%= business.createdAt ? business.createdAt.toDateString() : 'Unknown date' %></small>
+            </p>
+            <!-- Edit/Delete Actions -->
             <div style="margin-top: 10px;">
               <a href="/business/edit/<%= business._id %>" class="btn-edit">Edit</a>
               <form action="/business/delete/<%= business._id %>" method="POST" style="display: inline;">
@@ -156,7 +165,8 @@
               </form>
             </div>
           </div>
-
+          <br>
+          <!-- Mapbox Initialization Script -->
           <script>
             mapboxgl.accessToken = '<%= process.env.MAPBOX_TOKEN %>';
             const map<%= index %> = new mapboxgl.Map({
@@ -165,26 +175,30 @@
               center: [<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>],
               zoom: 12
             });
-            new mapboxgl.Marker().setLngLat([<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>]).addTo(map<%= index %>);
+            new mapboxgl.Marker()
+              .setLngLat([<%= business.location.coordinates[0] %>, <%= business.location.coordinates[1] %>])
+              .addTo(map<%= index %>);
           </script>
         <% }) %>
       <% } %>
     </div>
 
-    <!-- Appointments -->
+    <!-- Appointments Section -->
     <div>
       <h3>Upcoming Appointments</h3>
+      <br>
       <% if (!appointments || appointments.length === 0) { %>
-  <div class="card empty-card text-center">
-    <h4>No Appointments Yet</h4>
-    <p style="margin: 0.5rem 0;">No upcoming appointments</p>
-    <img src="https://cdn-icons-png.flaticon.com/512/5408/5408495.png" alt="No appointments" width="120" style="margin: 1rem auto;" />
-    <a href="/appointment/book" class="btn-edit" style="margin-top: 0.5rem;">Book Appointment</a>
-  </div>
-<% } else { %>
+        <!-- Empty State for Appointments -->
+        <div class="card empty-card text-center">
+          <h4 style="font-weight: 600;">No Appointments Yet</h4>
+          <p style="margin: 0.5rem 0;">No upcoming appointments</p>
+          <a href="/appointment/book" class="btn-edit" style="margin-top: 0.5rem;">Book Appointment</a>
+        </div>
+      <% } else { %>
         <% appointments.forEach(appt => { %>
           <div class="card">
-            <h4><%= appt.userRefName %> - <%= appt.phone %></h4>
+            <!-- Appointment Details -->
+            <h4 style="font-weight: 600;"><%= appt.userRefName %> - <%= appt.phone %></h4>
             <p><strong>Service:</strong> <%= appt.serviceType %></p>
             <p><strong>Date:</strong> <%= new Date(appt.date).toLocaleDateString() %></p>
             <p><strong>Time:</strong> <%= appt.time %></p>
@@ -192,7 +206,7 @@
             <% if (appt.message) { %>
               <p><strong>Customer Message:</strong><br><%= appt.message %></p>
             <% } %>
-
+            <!-- Appointment Status Timeline -->
             <div class="timeline">
               <div class="timeline-step"><strong>Status:</strong> Requested</div>
               <% if (appt.status === 'Confirmed' || appt.status === 'Completed') { %>
@@ -212,15 +226,16 @@
   </div>
 </div>
 
+<!-- Dynamic Greeting Script -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Set greeting based on current time
     const hours = new Date().getHours();
     let greeting = "";
-
     if (hours < 12) greeting = "Good Morning";
     else if (hours < 17) greeting = "Good Afternoon";
     else greeting = "Good Evening";
-
+    // Insert user's name
     const userName = "<%= userName %>";
     document.getElementById("greeting").textContent = `${greeting}, ${userName}`;
   });

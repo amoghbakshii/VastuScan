@@ -1,313 +1,392 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- Google Fonts for DM Sans and Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="""stylesheet">
+
 <style>
+  /* =========================
+     COLOR VARIABLES
+  ========================= */
+  :root {
+    --primary-color: #06202B;
+    --secondary-color: #4A90E2;
+    --accent-color: #50E3C2;
+    --background-light: #F4F7F6;
+    --text-color: #333333;
+    --white-color: #FFFFFF;
+    --border-color: #D8DEE2;
+  }
+
+  /* =========================
+     BASE STYLES
+  ========================= */
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-light);
+  }
+
+  /* =========================
+     FORM LAYOUT
+  ========================= */
   .form-wrapper {
     display: flex;
     justify-content: center;
     align-items: stretch;
-    min-height: 90vh;
-    background: linear-gradient(135deg, #eaf6f6, #ffffff);
-    font-family: "DM Serif Display", serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-light), var(--white-color));
     padding: 60px 20px;
     gap: 40px;
   }
 
+  /* =========================
+     LEFT PANE (INFO)
+  ========================= */
   .left-pane {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  padding: 40px;
-  color: #06202B;
-  background-image: url("https://images.pexels.com/photos/258160/pexels-photo-258160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  
-}
-
-  .left-pane h1 {
-    font-size: 35px;
-    margin: 10px 10px 10px 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    color: var(--white-color);
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.pexels.com/photos/1029611/pexels-photo-1029611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+    background-size: cover;
+    background-position: center;
+    border-radius: 24px;
+    text-align: left;
   }
-
+  .left-pane h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
   .left-pane p {
     font-size: 18px;
-    line-height: 1.6;
-    max-width: 500px;
-    margin: 10px 10px 10px 10px;
+    line-height: 1.7;
+    max-width: 450px;
   }
 
-  .text-class{
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 20px;
-}
-
+  /* =========================
+     FORM CARD
+  ========================= */
   .form-card {
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background: var(--white-color);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
     max-width: 700px;
     width: 100%;
-    padding: 40px;
-    transition: transform 0.3s ease;
+    padding: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-
   .form-card:hover {
-    transform: scale(1.01);
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(74, 144, 226, 0.2);
   }
-
   .form-title {
-    font-size: 30px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     text-align: center;
-    color: #06202B;
+    color: var(--primary-color);
   }
 
+  /* =========================
+     FORM GROUPS & INPUTS
+  ========================= */
   .form-group {
     position: relative;
     margin-bottom: 30px;
   }
-
   .form-group input,
   .form-group select,
   .form-group textarea {
     width: 100%;
-    padding: 14px 12px;
-    border: 2px solid #cdd9e1;
+    padding: 16px 14px;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    background: none;
+    background-color: var(--white-color);
+    font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    color: #06202B;
+    color: var(--text-color);
     transition: 0.3s ease;
   }
-
   .form-group label {
     position: absolute;
-    top: 12px;
+    top: 16px;
     left: 15px;
-    background: #fff;
+    background: var(--white-color);
     color: #999;
     padding: 0 5px;
-    font-size: 15px;
+    font-size: 16px;
     transition: 0.3s ease;
     pointer-events: none;
   }
-
+  /* Floating label effect */
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    outline: none;
+  }
   .form-group input:focus + label,
   .form-group input:not(:placeholder-shown) + label,
   .form-group textarea:focus + label,
   .form-group textarea:not(:placeholder-shown) + label,
-  .form-group select:focus + label,
-  .form-group select:not([value=""]) + label {
+  .form-group select:not([value=""]) + label,
+  .form-group.time-group input[type="time"] + label {
     top: -10px;
     left: 10px;
-    font-size: 15px;
-    color: #0a3a5b;
+    font-size: 14px;
+    color: var(--secondary-color);
   }
-
+  /* Time input group */
+  .form-group.time-group {
+    display: flex;
+    gap: 15px;
+  }
+  .form-group.time-group > div {
+    flex: 1;
+    position: relative;
+  }
   .form-group textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
   }
 
+  /* =========================
+     BUTTONS
+  ========================= */
   .submit-btn {
     width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, #06202B, #0a3a5b);
-    color: #fff;
-    font-size: 17px;
+    padding: 16px;
+    background: #06202B;
+    color: var(--white-color);
+    font-size: 18px;
     font-weight: 600;
     border: none;
-    border-radius: 14px;
+    border-radius: 12px;
     cursor: pointer;
     transition: 0.3s ease;
+    letter-spacing: 0.5px;
   }
-
   .submit-btn:hover {
-    background: linear-gradient(135deg, #0a3a5b, #06202B);
+    background: #3a7ac8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px rgba(74, 144, 226, 0.5);
   }
 
-  @media (max-width: 900px) {
-    .form-wrapper {
-      flex-direction: column;
-      padding: 40px 20px;
-    }
-
-    .left-pane {
-      align-items: center;
-      text-align: center;
-    }
-  }
-
-
-  /* timeline */
-
+  /* =========================
+     TIMELINE SECTION
+  ========================= */
   .timeline__cover {
-    background: #06202B;
-    padding: 60px 0;
-    color: #F5EEDD;
-    font-family: "DM Serif Display", serif;
-}
-
-.timeline__cover .timeline__title {
+    background: var(--primary-color);
+    padding: 80px 0;
+    color: var(--background-light);
+    font-family: 'Poppins', sans-serif;
+  }
+  .timeline__title {
     max-width: 840px;
     margin: 0 auto;
     text-align: center;
     padding: 0 16px;
-}
-
-.timeline__cover .timeline__title h2 {
+  }
+  .timeline__title h2 {
+    font-family: 'DM Sans', sans-serif;
     font-size: 52px;
     font-weight: 700;
-    line-height: 60px;
-    color: #7AE2CF;
+    line-height: 1.2;
+    color: var(--accent-color);
     margin-bottom: 12px;
-}
-
-.timeline__cover .timeline {
+  }
+  .timeline {
     padding-top: 40px;
-}
-
-.timeline__cover .timeline ul {
-    padding-top: 60px;
     position: relative;
-}
-
-.timeline__cover .timeline ul li {
-    background: #7AE2CF;
-    position: relative;
-    margin: 0 auto 40px;
-    width: 2px;
-    list-style-type: none;
-}
-
-.timeline__cover .timeline ul li:before {
+  }
+  .timeline:before {
     content: '';
-    background: #077A7D;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  .timeline ul {
+    padding: 60px 0;
+    position: relative;
+  }
+  .timeline li {
+    position: relative;
+    margin: 0 auto 60px;
+    width: 2px;
+    background-color: var(--accent-color);
+    list-style-type: none;
+  }
+  .timeline li:before {
+    content: '';
+    background: var(--primary-color);
     position: absolute;
     left: 50%;
     top: -28px;
     transform: translateX(-50%);
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 2px solid #F5EEDD;
-}
-
-.timeline__cover .timeline ul li .content {
+    border: 3px solid var(--accent-color);
+  }
+  
+  .timeline .content {
     position: relative;
     top: -80px;
-    width: 300px;
-    transition: opacity 0.7s ease;
+    width: 320px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 10px;
-}
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: opacity 0.5s, transform 0.5s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .timeline li.visible .content {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-.timeline__cover .timeline ul li .content .badge {
+  .timeline .badge {
     font-size: 13px;
     text-transform: uppercase;
-    color: #06202B;
-    background: #7AE2CF;
+    color: var(--primary-color);
+    background: var(--accent-color);
     display: inline-block;
     padding: 6px 14px;
-    border-radius: 1000px;
-    font-weight: 600;
-}
+    border-radius: 20px;
+    font-weight: 700;
+  }
 
-.timeline__cover .timeline ul li .content h3 {
-    font-size: 22px;
+  .timeline .content h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
     font-weight: 600;
-    color: #F5EEDD;
-    margin: 12px 0 8px;
-}
+    color: var(--white-color);
+    margin: 15px 0 10px;
+  }
 
-.timeline__cover .timeline ul li .content p {
+  .timeline .content p {
     color: #E3E3E3;
     font-size: 16px;
-    line-height: 24px;
-}
+    line-height: 1.6;
+  }
+  
+  .timeline li:nth-child(odd) .content { left: 80px; }
+  .timeline li:nth-child(even) .content { left: calc(-320px - 80px); }
 
-.timeline__cover .timeline ul li:nth-child(odd) .content {
-    left: 70px;
-}
+  /* Multi-Step Form Logic */
+  .form-step { display: none; animation: fadeIn 0.5s ease-in-out; }
+  .form-step.active { display: block; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.timeline__cover .timeline ul li:nth-child(even) .content {
-    left: calc(-300px - 70px);
-}
+  .form-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+  }
 
-/* Responsive Tweaks */
-@media screen and (max-width: 1020px) {
-    .timeline__cover .timeline ul li .content {
-        width: 42vw;
+  .form-nav button {
+    flex: 1;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .next-btn { background-color: #06202B; color: white; }
+  .prev-btn { background-color: var(--border-color); color: var(--text-color); }
+  .next-btn:hover { background-color: var(--border-color); color: var(--text-color);transform: translateY(-2px); }
+  .prev-btn:hover { background-color: #c7c7c7; transform: translateY(-2px); }
+
+  /* Custom Checkbox/Fieldset Styling */
+  .checkbox-group, .fieldset-group {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px 20px 20px 20px;
+    margin-top: 10px;
+  }
+  .checkbox-group legend, .fieldset-group legend {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 0 10px;
+    margin-left: 5px;
+  }
+  .options-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 10px;
+  }
+  .checkbox-group label {
+    font-size: 16px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative; /* remove label floating */
+    top: auto;
+    left: auto;
+    padding: 0;
+    transition: none;
+  }
+  .checkbox-group input[type="checkbox"] {
+    width: 1.3em;
+    height: 1.3em;
+    accent-color: var(--secondary-color);
+  }
+  .final-step-text {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 30px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+    .form-wrapper { flex-direction: column; }
+    .left-pane { text-align: center; max-width: 100%; }
+    .left-pane h1, .left-pane p { max-width: 600px; margin-left: auto; margin-right: auto; }
+  }
+
+  @media screen and (max-width: 768px) {
+    .timeline:before { left: 20px; }
+    .timeline ul { padding-left: 0; }
+    .timeline li { margin-left: 20px; }
+    .timeline .content { width: calc(100vw - 120px); }
+    .timeline li:nth-child(odd) .content,
+    .timeline li:nth-child(even) .content {
+        left: 45px;
     }
-
-    .timeline__cover .timeline ul li:nth-child(even) .content {
-        left: calc(-42vw - 40px);
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .timeline__cover {
-        padding: 40px 0;
-    }
-
-    .timeline__cover .timeline__title {
-        text-align: left;
-        padding-left: 20px;
-    }
-
-    .timeline__cover .timeline__title h2 {
-        font-size: 36px;
-        line-height: 44px;
-    }
-
-    .timeline__cover .timeline {
-        padding-top: 32px;
-    }
-
-    .timeline__cover .timeline ul li {
-        margin-left: 20px;
-    }
-
-    .timeline__cover .timeline ul li .content {
-        width: calc(100vw - 100px);
-        left: 38px !important;
-    }
-
-    
-
-}
-
-/* Fade and slide-up animation */
-@keyframes fadeSlideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.timeline__cover .timeline ul li .content {
-    opacity: 0;
-    animation: fadeSlideUp 1s ease-out forwards;
-    animation-delay: 0s;
-}
-
-/* Add stagger effect (optional) */
-.timeline__cover .timeline ul li:nth-child(1) .content { animation-delay: 0.2s; }
-.timeline__cover .timeline ul li:nth-child(2) .content { animation-delay: 0.4s; }
-.timeline__cover .timeline ul li:nth-child(3) .content { animation-delay: 0.6s; }
-.timeline__cover .timeline ul li:nth-child(4) .content { animation-delay: 0.8s; }
-/* ...add more if needed */
+    .form-card, .left-pane { padding: 30px; }
+    .form-title { font-size: 28px; }
+  }
 </style>
 
 <section class="timeline__cover">
@@ -319,100 +398,328 @@
     <ul>
       <li>
         <div class="content">
-          <div class="badge">Step 1</div>
+          <span class="badge">Step 1</span>
           <h3>Fill in your Business Details</h3>
           <p>Submit your name, address, contact, services offered, and more through our onboarding form.</p>
         </div>
       </li>
-
       <li>
         <div class="content">
-          <div class="badge">Step 2</div>
+          <span class="badge">Step 2</span>
           <h3>Verification by Our Team</h3>
           <p>Our team checks and verifies your details to ensure everything is accurate and legit.</p>
         </div>
       </li>
-
       <li>
         <div class="content">
-          <div class="badge">Step 3</div>
+          <span class="badge">Step 3</span>
           <h3>Agree to Our Terms</h3>
           <p>Once verified, you'll review and accept our terms of service and community guidelines.</p>
         </div>
       </li>
-
       <li>
         <div class="content">
-          <div class="badge">Step 4</div>
+          <span class="badge">Step 4</span>
           <h3>You're Onboard!</h3>
           <p>Welcome aboard! Your business is now live and visible to users on VastuScan.</p>
         </div>
       </li>
+    </ul>
+  </div>
 </section>
 
 <div class="form-wrapper">
   <div class="left-pane">
-    <div class="text-class">
-    <h1>List Your Business with us.</h1>
+    <h1>List Your Business with Us.</h1>
     <p>
-      Reach thousands of potential clients by showcasing your expertise in Vastu, interior design, astrology, or architecture. It's quick, easy, and totally free. Let’s make your business shine.
+      Reach thousands of potential clients by showcasing your expertise. It's quick, easy, and totally free. Let’s make your business shine.
     </p>
-    </div>
   </div>
 
   <form action="/business/list-business" method="POST" class="form-card" autocomplete="off">
-    <h2 class="form-title">Fill in your details for a smoother onboarding</h2>
-
-    <div class="form-group">
-      <input type="text" id="name" name="name" required placeholder=" " />
-      <label for="name">Business Name</label>
+    <div class="form-step active">
+      <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 1: Basic Information</h3>
+      <div class="form-group">
+        <input type="text" id="name" name="name" required placeholder=" " />
+        <label for="name">Business Name</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="ownerName" name="ownerName" required placeholder=" " />
+        <label for="ownerName">Owner's Full Name</label>
+      </div>
+      <div class="form-group">
+        <input type="tel" id="contactPhone" name="contact[phone]" required placeholder=" " />
+        <label for="contactPhone">Contact Phone</label>
+      </div>
+      <div class="form-group">
+        <input type="email" id="contactEmail" name="contact[email]" required placeholder=" " />
+        <label for="contactEmail">Contact Email</label>
+      </div>
+      <div class="form-nav">
+        <button type="button" class="next-btn">Next</button>
+      </div>
     </div>
 
-    <div class="form-group">
-      <input type="text" id="address" name="address" required placeholder=" " />
-      <label for="address">Address</label>
+    <div class="form-step">
+      <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 2: Business Address</h3>
+      <div class="form-group">
+        <input type="text" id="houseNo" name="address[houseNo]" required placeholder=" " />
+        <label for="houseNo">House/Building No.</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="area" name="address[area]" required placeholder=" " />
+        <label for="area">Area / Locality</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="road" name="address[road]" required placeholder=" " />
+        <label for="road">Road / Street Name</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="city" name="address[city]" required placeholder=" " />
+        <label for="city">City</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="state" name="address[state]" required placeholder=" " />
+        <label for="state">State</label>
+      </div>
+      <div class="form-group">
+        <input type="text" id="pincode" name="address[pincode]" required placeholder=" " />
+        <label for="pincode">Pincode</label>
+      </div>
+      <div class="form-nav">
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
     </div>
 
-    <div class="form-group">
-      <input type="text" id="contact" name="contact" required placeholder=" " />
-      <label for="contact">Contact Number</label>
+    <div class="form-step">
+        <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 3: Core Service Details</h3>
+        <fieldset class="checkbox-group">
+            <legend>Service Categories</legend>
+            <div class="options-wrapper">
+                <label><input type="checkbox" name="serviceCategories" value="Vastu Consultant"> Vastu Consultant</label>
+                <label><input type="checkbox" name="serviceCategories" value="Interior Designer"> Interior Designer</label>
+                <label><input type="checkbox" name="serviceCategories" value="Architect"> Architect</label>
+                <label><input type="checkbox" name="serviceCategories" value="Astrologer"> Astrologer</label>
+            </div>
+        </fieldset>
+        <br>
+         <div class="form-group">
+            <select id="workType" name="workType" required>
+              <option value="" disabled selected hidden></option>
+              <option value="Company">Company</option>
+              <option value="Full-Time">Full-Time Professional</option>
+              <option value="Part-Time">Part-Time Professional</option>
+              <option value="Freelancer">Freelancer</option>
+            </select>
+            <label for="workType">You are a...</label>
+        </div>
+        <div class="form-group">
+            <input type="number" id="yearsInBusiness" name="yearsInBusiness" placeholder=" " />
+            <label for="yearsInBusiness">Years in Business</label>
+        </div>
+        <div class="form-group">
+            <textarea id="detailedServices" name="detailedServices" placeholder=" "></textarea>
+            <label for="detailedServices">Describe Your Services</label>
+        </div>
+      <div class="form-nav">
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
     </div>
-
-    <div class="form-group">
-      <select id="serviceType" name="serviceType" required>
-        <option value="" disabled selected hidden></option>
-        <option value="Vastu Consultant">Vastu Consultant</option>
-        <option value="Interior Designer">Interior Designer</option>
-        <option value="Architect">Architect</option>
-        <option value="Astrologer">Astrologer</option>
-      </select>
-      <label for="serviceType">Services Offered</label>
+    
+    <div class="form-step">
+        <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 4: Operational Details</h3>
+        <fieldset class="checkbox-group">
+            <legend>Working Days</legend>
+            <div class="options-wrapper">
+                <label><input type="checkbox" name="workingDays" value="Monday"> Mon</label>
+                <label><input type="checkbox" name="workingDays" value="Tuesday"> Tue</label>
+                <label><input type="checkbox" name="workingDays" value="Wednesday"> Wed</label>
+                <label><input type="checkbox" name="workingDays" value="Thursday"> Thu</label>
+                <label><input type="checkbox" name="workingDays" value="Friday"> Fri</label>
+                <label><input type="checkbox" name="workingDays" value="Saturday"> Sat</label>
+                <label><input type="checkbox" name="workingDays" value="Sunday"> Sun</label>
+            </div>
+        </fieldset>
+        <br>
+        <div class="form-group time-group">
+           <div>
+             <input type="time" id="workingHoursStart" name="workingHours[start]" />
+             <label for="workingHoursStart">Working Hours Start</label>
+           </div>
+           <div>
+             <input type="time" id="workingHoursEnd" name="workingHours[end]" />
+             <label for="workingHoursEnd">Working Hours End</label>
+           </div>
+        </div>
+        <div class="form-group">
+            <textarea id="serviceAreas" name="serviceAreas" placeholder=" "></textarea>
+            <label for="serviceAreas">Service Areas (e.g., Mumbai, Pune, Online)</label>
+        </div>
+        <div class="form-group">
+             <textarea id="languagesSpoken" name="languagesSpoken" placeholder=" "></textarea>
+            <label for="languagesSpoken">Languages Spoken (comma separated)</label>
+        </div>
+         <div class="form-group">
+            <select id="willingToTravel" name="willingToTravel">
+              <option value="" disabled selected hidden></option>
+              <option value="Yes">Yes, willing to travel</option>
+              <option value="Within City">Only within the city</option>
+              <option value="No">No, service is remote/at location</option>
+            </select>
+            <label for="willingToTravel">Willingness to Travel</label>
+        </div>
+        <fieldset class="checkbox-group">
+            <div class="options-wrapper">
+                <label><input type="checkbox" name="emergencyServices" value="true"> We offer emergency services</label>
+            </div>
+        </fieldset>
+        <div class="form-nav">
+            <button type="button" class="prev-btn">Previous</button>
+            <button type="button" class="next-btn">Next</button>
+        </div>
     </div>
-
-    <div class="form-group">
-      <textarea id="description" name="description" required placeholder=" "></textarea>
-      <label for="description">Business Description</label>
+    
+    <div class="form-step">
+        <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 5: Pricing</h3>
+         <div class="form-group">
+            <input type="number" id="startingPrice" name="startingPrice" placeholder=" " />
+            <label for="startingPrice">Starting Price (INR)</label>
+        </div>
+        <div class="form-group">
+            <select id="priceUnit" name="priceUnit">
+              <option value="" disabled selected hidden></option>
+              <option value="sqft">Per Square Foot (sqft)</option>
+              <option value="hour">Per Hour</option>
+              <option value="consultation">Per Consultation</option>
+              <option value="project">Per Project</option>
+            </select>
+            <label for="priceUnit">Price Unit</label>
+        </div>
+        <fieldset class="checkbox-group">
+            <div class="options-wrapper">
+                <label><input type="checkbox" name="freeConsultation" value="true"> I offer a free initial consultation</label>
+            </div>
+        </fieldset>
+        <br>
+        <fieldset class="fieldset-group">
+            <legend>Add a Sample Package</legend>
+             <div class="form-group">
+                <input type="text" id="packageTitle" name="packages[title]" placeholder=" " />
+                <label for="packageTitle">Package Title</label>
+            </div>
+            <div class="form-group">
+                <textarea id="packageDesc" name="packages[description]" placeholder=" "></textarea>
+                <label for="packageDesc">Package Description</label>
+            </div>
+             <div class="form-group">
+                <input type="number" id="packagePrice" name="packages[price]" placeholder=" " />
+                <label for="packagePrice">Package Price (INR)</label>
+            </div>
+        </fieldset>
+         <div class="form-nav">
+            <button type="button" class="prev-btn">Previous</button>
+            <button type="button" class="next-btn">Next</button>
+        </div>
     </div>
+    
+    <div class="form-step">
+      <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 6: Verification Details</h3>
+       <fieldset class="fieldset-group">
+            <legend>Government Documents</legend>
+            <p style="font-size: 14px; color: #666; margin: -10px 0 20px 10px;">For verification purposes only.</p>
+            <div class="form-group"><input type="text" id="panCard" name="documents[panCard]" placeholder=" " /><label for="panCard">PAN Card Number</label></div>
+            <div class="form-group"><input type="text" id="gstNumber" name="documents[gstNumber]" placeholder=" " /><label for="gstNumber">GST Number (Optional)</label></div>
+            <div class="form-group"><input type="text" id="udyamNumber" name="documents[udyamNumber]" placeholder=" " /><label for="udyamNumber">Udyam Number (Optional)</label></div>
+            <div class="form-group"><input type="text" id="businessCert" name="documents[businessCert]" placeholder=" " /><label for="businessCert">Business Certificate No. (Optional)</label></div>
+            <div class="form-group"><input type="text" id="fssai" name="documents[fssai]" placeholder=" " /><label for="fssai">FSSAI License No. (If applicable)</label></div>
+            <div class="form-group"><input type="text" id="aadhaarNo" name="documents[aadhaarNo]" placeholder=" " /><label for="aadhaarNo">Owner's Aadhaar Number</label></div>
+        </fieldset>
+        <br>
+        <fieldset class="fieldset-group">
+            <legend>Bank Details</legend>
+            <div class="form-group"><input type="text" id="accountHolder" name="documents[bankDetails][accountHolder]" placeholder=" " /><label for="accountHolder">Account Holder Name</label></div>
+            <div class="form-group"><input type="text" id="accountNumber" name="documents[bankDetails][accountNumber]" placeholder=" " /><label for="accountNumber">Account Number</label></div>
+            <div class="form-group"><input type="text" id="ifsc" name="documents[bankDetails][ifsc]" placeholder=" " /><label for="ifsc">IFSC Code</label></div>
+            <div class="form-group"><input type="text" id="upiId" name="documents[bankDetails][upiId]" placeholder=" " /><label for="upiId">UPI ID (Optional)</label></div>
+        </fieldset>
+      <div class="form-nav">
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="button" class="next-btn">Next</button>
+      </div>
+    </div>
+    
+    <div class="form-step">
+      <h3 class="form-title" style="font-size: 24px; margin-bottom: 25px;">Step 7: Final Step</h3>
+      <p class="final-step-text">You're almost there!<br>Please confirm your agreement to our terms to complete the listing.</p>
+      
+        <fieldset class="checkbox-group">
+            <legend>Consent</legend>
+            <div class="options-wrapper">
+                <label><input type="checkbox" name="agreedToTerms" value="true" required> I agree to the Terms of Service.</label>
+                <label><input type="checkbox" name="verificationConsent" value="true" required> I consent to the verification of my details.</label>
+            </div>
+        </fieldset>
+        <br>
 
-    <button type="submit" class="submit-btn">Submit Listing</button>
+      <div class="form-group">
+        <input type="text" id="digitalSignature" name="digitalSignature" required placeholder=" " />
+        <label for="digitalSignature">Type Your Full Name as Digital Signature</label>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="prev-btn">Previous</button>
+        <button type="submit" class="submit-btn">Submit Listing</button>
+      </div>
+    </div>
   </form>
 </div>
 
 <script>
-  const timelineItems = document.querySelectorAll('.timeline ul li .content');
+  // Form step navigation
+  const steps = document.querySelectorAll('.form-step');
+  const nextBtns = document.querySelectorAll('.next-btn');
+  const prevBtns = document.querySelectorAll('.prev-btn');
+  let currentStep = 0;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.style.animationPlayState = 'running';
+  function showStep(stepIndex) {
+    steps.forEach((step, idx) => {
+      step.classList.toggle('active', idx === stepIndex);
+    });
+  }
+
+  nextBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+        window.scrollTo(0, document.querySelector('.form-wrapper').offsetTop);
       }
     });
-  }, {
-    threshold: 0.2
   });
 
+  prevBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+        window.scrollTo(0, document.querySelector('.form-wrapper').offsetTop);
+      }
+    });
+  });
+
+  // Timeline animation observer
+  const timelineItems = document.querySelectorAll('.timeline li');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.5 });
+
   timelineItems.forEach(item => {
-    item.style.animationPlayState = 'paused'; // pause until in view
     observer.observe(item);
   });
 </script>

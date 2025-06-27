@@ -1,10 +1,15 @@
 <% layout('layouts/boilerplate') %>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
+  /* =========================
+     CSS Variables for Theme
+     ========================= */
   :root {
     --primary-color: #06202B;
     --secondary-color: #f5eedd;
-    --accent-color: #3b6b82; /* A slightly brighter accent */
+    --accent-color: #3b6b82;
     --text-primary: #333;
     --text-secondary: #666;
     --card-bg: #ffffff;
@@ -12,8 +17,13 @@
     --shadow-medium: rgba(6, 32, 43, 0.12);
     --border-radius-md: 12px;
     --border-radius-lg: 30px;
+    --verified-color: #28a745;
+    --danger-color: #dc3545;
   }
 
+  /* =========================
+     Layout & Container Styles
+     ========================= */
   .explore-container {
     max-width: 1300px;
     margin: 50px auto;
@@ -22,46 +32,42 @@
 
   .explore-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
-
   .explore-header h1 {
     font-family: 'DM Serif Display', serif;
     font-size: 40px;
     color: var(--primary-color);
     margin-bottom: 12px;
   }
-
   .explore-header p {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto 30px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
   }
 
-  .filter-controls {
+  /* =========================
+     Filter Toolbar Styles
+     ========================= */
+  .filter-toolbar {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
     align-items: center;
-    gap: 20px;
   }
-
   .search-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 500px;
+    flex-grow: 1;
   }
-
   .search-icon {
-      position: absolute;
-      top: 50%;
-      left: 18px;
-      transform: translateY(-50%);
-      color: var(--text-secondary);
-      font-size: 16px;
-      pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
   }
-
   .filter-input {
     width: 100%;
     padding: 12px 20px 12px 45px;
@@ -70,20 +76,59 @@
     font-size: 16px;
     transition: all 0.3s ease;
   }
-
   .filter-input:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 8px 1px #d1e0e8;
   }
-
-  .button-filters {
+  .filters-toggle-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .filters-toggle-btn:hover {
+    background-color: var(--accent-color);
   }
 
+  /* =========================
+     Collapsible Filter Panel
+     ========================= */
+  .filters-panel {
+    display: none;
+    flex-direction: column;
+    gap: 25px;
+    background-color: #fdfdfd;
+    border: 1px solid #e9e9e9;
+    border-radius: var(--border-radius-md);
+    padding: 25px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+  }
+  .filters-panel.visible {
+    display: flex;
+  }
+  .filter-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .button-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
   .filter-btn {
     padding: 9px 20px;
     background-color: #f7f7f7;
@@ -95,30 +140,133 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-
   .filter-btn:hover {
     background-color: var(--secondary-color);
     border-color: var(--accent-color);
     color: var(--primary-color);
   }
-
   .filter-btn.active {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     border-color: var(--primary-color);
-    pointer-events: none;
+  }
+  .advanced-filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 5px;
+  }
+  .filter-select {
+    padding: 10px 15px;
+    border-radius: var(--border-radius-md);
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    font-size: 15px;
+  }
+  /* Switch for Verified Only */
+  .filter-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: var(--border-radius-md);
+    height: 100%;
+  }
+  .filter-switch .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+  }
+  .filter-switch .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 28px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: var(--verified-color);
+  }
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  .action-btn {
+    padding: 10px 25px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .reset-btn {
+    background-color: transparent;
+    color: var(--primary-color);
+  }
+  .reset-btn:hover {
+    background-color: #e9ecef;
+    border-color: #5a6268;
+  }
+  .apply-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+  }
+  .apply-btn:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
   }
 
-  /* --- CHANGE: Switched to a responsive grid layout --- */
+  /* =========================
+     Business List & Cards
+     ========================= */
   .business-list {
     display: grid;
-    /* This creates a responsive grid. It will be 1 column on small screens, 
-       and 2 or more columns on larger screens. */
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 25px;
-    margin-top: 50px;
   }
-
+  .business-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    animation: fadeSlideUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
   .business-card {
     display: flex;
     flex-direction: column;
@@ -127,48 +275,57 @@
     box-shadow: 0 2px 8px var(--shadow-light);
     border: 1px solid #e9e9e9;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 20px; /* Reduced padding */
+    padding: 20px;
+    height: 100%;
   }
-
-  .business-card:hover {
+  .business-card-link:hover .business-card {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px var(--shadow-medium);
   }
-
   .business-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      gap: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 15px;
   }
-  
-  .business-info h2 { /* Targeting the title directly */
-    font-size: 20px; /* Reduced font size */
+  .business-info h2 {
+    font-size: 20px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
   }
-
-  .business-info .business-subtitle {
+  .verified-badge {
+    color: var(--verified-color);
+    font-size: 16px;
+    margin-left: 8px;
+  }
+  .business-subtitle {
     font-size: 14px;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
   }
-
   .business-subtitle .icon {
-      margin-right: 6px;
+    margin-right: 6px;
   }
-
   .business-description {
     font-size: 14px;
     color: var(--text-primary);
     line-height: 1.6;
     margin-bottom: 15px;
-    flex-grow: 1; /* Allows description to take available space */
+    flex-grow: 1;
   }
-
+  .service-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-shrink: 0;
+    max-width: 150px;
+    justify-content: flex-end;
+  }
   .service-type-tag {
     background-color: #f0f5f8;
     color: var(--accent-color);
@@ -178,137 +335,83 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    flex-shrink: 0;
   }
-
   .business-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: auto;
-      padding-top: 15px;
-      border-top: 1px solid #f0f0f0;
-      gap: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    gap: 15px;
   }
-
-  /* --- CHANGE: Styles for blurred phone number --- */
   .contact-info {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-secondary);
     cursor: pointer;
   }
-
   .contact-info .icon {
     margin-right: 5px;
   }
-
   .blurred-text {
     filter: blur(4px);
     transition: filter 0.3s ease;
+    user-select: none;
   }
-
-  /* --- CHANGE: Style for new appointment button --- */
-  .appointment-btn {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: 10px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
+  .contact-info:hover .blurred-text {
+    filter: blur(0);
   }
-  
-  .appointment-btn .icon {
-    margin-right: 8px;
-  }
-
-  .appointment-btn:hover {
-    background-color: var(--accent-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-
   .no-results {
-      text-align: center;
-      padding: 50px 20px;
-      font-size: 18px;
-      color: var(--text-secondary);
-      display: none;
-      grid-column: 1 / -1; 
+    text-align: center;
+    padding: 50px 20px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    display: none;
+    grid-column: 1 / -1;
+  }
+  .hidden {
+    display: none !important;
   }
 
-  /* ---------------- Animations ------------------- */
+  /* =========================
+     Animations & Responsive
+     ========================= */
   @keyframes fadeSlideUp {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  @media (max-width: 768px) {
+    .explore-header h1 { font-size: 32px; }
+    .business-list { grid-template-columns: 1fr; }
+    .filter-toolbar { flex-direction: column; align-items: stretch;}
   }
-
-  .explore-header {
-    animation: fadeSlideUp 0.6s ease forwards;
-  }
-
-  .business-card {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeSlideUp 0.6s ease forwards;
-    animation-delay: var(--animation-delay, 0s);
-  }
-
-  /* Search field focus animation */
-  .filter-input {
-    transition: all 0.3s ease, box-shadow 0.4s ease;
-  }
-
-  .filter-btn {
-    transition: all 0.25s ease, transform 0.2s ease;
-  }
-
-  .filter-btn:hover {
-    transform: scale(1.05);
-  }
-
-  .appointment-btn {
-    transition: all 0.3s ease, transform 0.2s ease;
-  }
-
-  .appointment-btn:hover {
-    transform: scale(1.05) translateY(-2px);
-  }
-
-  .business-list .business-card {
-    will-change: transform, opacity;
-  }
-
-
 </style>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 <div class="explore-container">
+  <!-- Header Section -->
   <div class="explore-header">
-    <h1>Find your Vastu Expert on VastuScan</h1>
-    <p>Search by name, location, or filter by specialty to connect with the perfect professional for your needs.</p>
-    <div class="filter-controls">
-      <div class="search-wrapper">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" class="filter-input" id="globalSearch" placeholder="Search by name or address...">
-      </div>
+    <h1>Find Your Vastu Expert</h1>
+    <p>Search by name, location, or use the filters to connect with the perfect professional for your needs.</p>
+  </div>
+
+  <!-- Filter Toolbar (Search + Toggle Filters) -->
+  <div class="filter-toolbar">
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="filter-input" id="globalSearch" placeholder="Search by name, city, or state...">
+    </div>
+    <button class="filters-toggle-btn" id="filtersToggleBtn">
+      <i class="fa-solid fa-filter"></i>
+      Show Filters
+    </button>
+  </div>
+
+  <!-- Collapsible Filters Panel -->
+  <div class="filters-panel" id="filtersPanel">
+    <!-- Specialty Filter Buttons -->
+    <div>
+      <h3 class="filter-section-title">Specialty</h3>
       <div class="button-filters">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="vastu consultant">Vastu Consultant</button>
@@ -317,112 +420,224 @@
         <button class="filter-btn" data-filter="astrologer">Astrologer</button>
       </div>
     </div>
-  </div>
-
-  <div class="business-list" id="businessGrid">
-    <% if(businesses.length > 0) { %>
-      <% businesses.forEach(business => { %>
-        <div class="business-card"
-             data-name="<%= (business.name || '').toLowerCase() %>"
-             data-location="<%= (business.address || '').toLowerCase() %>"
-             data-servicetype="<%= (business.serviceType || '').toLowerCase() %>">
-          
-          <div class="business-header">
-            <div class="business-info">
-                 <h2 class="business-title"><%= business.name || 'Name Not Available' %></h2>
-                 <div class="business-subtitle">
-                    <i class="fas fa-map-marker-alt icon"></i>
-                    <%= business.address || 'Address Not Available' %>
-                 </div>
-            </div>
-            <% if (business.serviceType) { %>
-             <div class="service-type-tag"><%= business.serviceType %></div>
-            <% } %>
-          </div>
-          
-          <p class="business-description"><%= business.description || 'No description provided.' %></p>
-          
-          <div class="business-footer">
-            <div class="contact-info" title="Hover to reveal number">
-              <i class="fa-solid fa-phone"></i>
-              <span class="blurred-text" style="user-select: none;"><%= business.contact %></span>
-            </div>
-            <a href="/appointment/book" class="appointment-btn">
-                <i class="fas fa-calendar-check icon"></i>
-                Book an Appointment
-            </a>
+    <!-- Advanced Filters -->
+    <div>
+      <h3 class="filter-section-title">Advanced Filters</h3>
+      <div class="advanced-filters-grid">
+        <!-- State Dropdown -->
+        <div class="filter-group">
+          <label for="stateFilter">State</label>
+          <select id="stateFilter" class="filter-select">
+            <option value="all">All States</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="delhi">Delhi</option>
+            <option value="karnataka">Karnataka</option>
+            <option value="tamil nadu">Tamil Nadu</option>
+          </select>
+        </div>
+        <!-- Willing to Travel Dropdown -->
+        <div class="filter-group">
+          <label for="travelFilter">Willing to Travel</label>
+          <select id="travelFilter" class="filter-select">
+            <option value="all">Any</option>
+            <option value="Yes">Yes</option>
+            <option value="Within City">Within City</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <!-- Verified Only Switch -->
+        <div class="filter-group">
+          <label>Verification</label>
+          <div class="filter-switch">
+            <span>Verified Only</span>
+            <label class="switch">
+              <input type="checkbox" id="verifiedFilter">
+              <span class="slider"></span>
+            </label>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- Filter Actions -->
+    <div class="filter-actions">
+      <button class="action-btn reset-btn" id="resetBtn">Reset</button>
+      <button class="action-btn apply-btn" id="applyBtn">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- Business List Grid -->
+  <div class="business-list" id="businessGrid">
+    <% if(businesses.length > 0) { %>
+      <% businesses.forEach((business, i) => { %>
+        <a href="/business/businesses/<%= business.id %>" class="business-card-link" style="--animation-delay: <%= i * 0.07 %>s;">
+          <div class="business-card"
+            data-name="<%= (business.name || '').toLowerCase() %>"
+            data-location="<%= (`${business.address.city || ''} ${business.address.state || ''} ${business.address.area || ''}`).toLowerCase() %>"
+            data-services="<%= (business.serviceCategories || []).join(' ').toLowerCase() %>"
+            data-travel="<%= business.willingToTravel || 'all' %>"
+            data-verified="<%= business.isVerified %>">
+            <!-- Card Header: Name, Location, Tags -->
+            <div class="business-header">
+              <div class="business-info">
+                <h2 class="business-title">
+                  <%= business.name || 'Name Not Available' %>
+                  <% if (business.isVerified) { %>
+                    <span class="verified-badge" title="Verified Expert"><i class="fas fa-check-circle"></i></span>
+                  <% } %>
+                </h2>
+                <div class="business-subtitle">
+                  <i class="fas fa-map-marker-alt icon"></i>
+                  <%= `${business.address.city || ''}, ${business.address.state || ''}` %>
+                </div>
+              </div>
+              <% if (business.serviceCategories && business.serviceCategories.length) { %>
+                <div class="service-tags-container">
+                  <% business.serviceCategories.forEach(category => { %>
+                    <span class="service-type-tag"><%= category %></span>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+            <!-- Card Description -->
+            <p class="business-description"><%= business.detailedServices || 'No description provided.' %></p>
+            <!-- Card Footer: Contact Info -->
+            <div class="business-footer">
+              <div class="contact-info" title="Hover to reveal number">
+                <i class="fa-solid fa-phone icon"></i>
+                <span class="blurred-text"><%= business.contact.phone || 'N/A' %></span>
+              </div>
+            </div>
+          </div>
+        </a>
       <% }) %>
     <% } %>
+    <!-- No Results Message -->
     <div class="no-results" id="noResultsMessage">
-        <h3>No experts found</h3>
-        <p>Try adjusting your search or filter criteria.</p>
+      <h3>No experts found</h3>
+      <p>Try adjusting your search or filter criteria.</p>
     </div>
   </div>
 </div>
 
 <script>
-  // The JavaScript logic remains the same as it correctly handles filtering.
-  document.addEventListener('DOMContentLoaded', () => {
-    const globalInput = document.getElementById('globalSearch');
-    const businessGrid = document.getElementById('businessGrid');
-    const cards = businessGrid.querySelectorAll('.business-card');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const noResultsMessage = document.getElementById('noResultsMessage');
-    
-    let currentFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+/**
+ * Handles all filtering, searching, and UI interactions for the business list.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  // --- DOM Elements ---
+  const globalInput = document.getElementById('globalSearch');
+  const categoryButtons = document.querySelectorAll('.filter-btn');
+  const stateFilter = document.getElementById('stateFilter');
+  const travelFilter = document.getElementById('travelFilter');
+  const verifiedFilter = document.getElementById('verifiedFilter');
+  const businessGrid = document.getElementById('businessGrid');
+  const cardLinks = Array.from(businessGrid.querySelectorAll('.business-card-link'));
+  const noResultsMessage = document.getElementById('noResultsMessage');
+  const filtersToggleBtn = document.getElementById('filtersToggleBtn');
+  const filtersPanel = document.getElementById('filtersPanel');
+  const applyBtn = document.getElementById('applyBtn');
+  const resetBtn = document.getElementById('resetBtn');
 
-    function updateActiveButton(activeButton) {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        if (activeButton) {
-            activeButton.classList.add('active');
-        }
-    }
+  // Track current specialty/category filter
+  let currentCategoryFilter = 'all';
 
-    function filterBusinesses() {
-        const query = globalInput.value.toLowerCase().trim();
-        let resultsFound = false;
+  /**
+   * Applies all filters and search to the business cards.
+   */
+  const applyFilters = () => {
+    const searchQuery = globalInput.value.toLowerCase().trim();
+    const state = stateFilter.value.toLowerCase();
+    const travel = travelFilter.value;
+    const mustBeVerified = verifiedFilter.checked;
 
-        cards.forEach(card => {
-            const name = card.dataset.name;
-            const location = card.dataset.location;
-            const serviceType = card.dataset.servicetype;
+    let resultsFound = false;
+    let visibleCount = 0;
 
-            const matchesSearch = name.includes(query) || location.includes(query);
-            const matchesFilter = currentFilter === 'all' || serviceType === currentFilter;
+    cardLinks.forEach(link => {
+      const card = link.querySelector('.business-card');
+      if (!card) return;
 
-            const isVisible = matchesSearch && matchesFilter;
-            card.style.display = isVisible ? 'flex' : 'none';
-            if (isVisible) resultsFound = true;
-        });
+      // Get data attributes for filtering
+      const name = card.dataset.name;
+      const location = card.dataset.location;
+      const services = card.dataset.services;
+      const travelPreference = card.dataset.travel;
+      const isVerified = card.dataset.verified === 'true';
 
-        noResultsMessage.style.display = resultsFound ? 'none' : 'block';
-    }
+      // Check if card matches all filters
+      const matchesSearch = name.includes(searchQuery) || location.includes(searchQuery);
+      const matchesCategory = currentCategoryFilter === 'all' || services.includes(currentCategoryFilter);
+      const matchesState = state === 'all' || location.includes(state);
+      const matchesTravel = travel === 'all' || travelPreference === travel;
+      const matchesVerified = !mustBeVerified || isVerified;
 
-    globalInput.addEventListener('input', () => {
-        const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
-        currentFilter = 'all';
-        updateActiveButton(allBtn);
-        filterBusinesses();
+      const isVisible = matchesSearch && matchesCategory && matchesState && matchesTravel && matchesVerified;
+
+      // Show/hide card
+      link.classList.toggle('hidden', !isVisible);
+
+      // Set animation delay for visible cards
+      if (isVisible) {
+        resultsFound = true;
+        link.style.animationDelay = `${visibleCount * 0.07}s`;
+        visibleCount++;
+      }
     });
 
-    filterButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            globalInput.value = '';
-            const clickedButton = e.currentTarget;
-            currentFilter = clickedButton.dataset.filter;
-            updateActiveButton(clickedButton);
-            filterBusinesses();
-        });
-    });
-    
-    filterBusinesses();
+    // Show/hide "No Results" message
+    noResultsMessage.style.display = resultsFound ? 'none' : 'grid';
+  };
+
+  /**
+   * Resets all filters and search input to default.
+   */
+  const resetFilters = () => {
+    globalInput.value = '';
+    stateFilter.value = 'all';
+    travelFilter.value = 'all';
+    verifiedFilter.checked = false;
+    currentCategoryFilter = 'all';
+    categoryButtons.forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+    applyFilters();
+  };
+
+  // --- Event Listeners ---
+
+  // Toggle filter panel visibility
+  filtersToggleBtn.addEventListener('click', () => {
+    filtersPanel.classList.toggle('visible');
+    const isVisible = filtersPanel.classList.contains('visible');
+    filtersToggleBtn.innerHTML = isVisible
+      ? `<i class="fa-solid fa-xmark"></i> Hide Filters`
+      : `<i class="fa-solid fa-filter"></i> Show Filters`;
   });
 
-  
-cards.forEach((card, i) => {
-  card.style.setProperty('--animation-delay', `${i * 0.1}s`);
-});
+  // Apply filters and close panel
+  applyBtn.addEventListener('click', () => {
+    applyFilters();
+    filtersPanel.classList.remove('visible');
+    filtersToggleBtn.innerHTML = `<i class="fa-solid fa-filter"></i> Show Filters`;
+  });
 
+  // Reset all filters
+  resetBtn.addEventListener('click', () => {
+    resetFilters();
+  });
+
+  // Instant search as user types
+  globalInput.addEventListener('input', applyFilters);
+
+  // Handle specialty/category button clicks
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      currentCategoryFilter = button.dataset.filter;
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+
+  // Initial filter application on page load
+  applyFilters();
+});
 </script>

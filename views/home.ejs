@@ -1,27 +1,55 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- 
+  Main stylesheet for the Home page.
+  Uses CSS variables for colors, shadows, and radii.
+  Includes responsive design and accessibility features.
+-->
 <style>
+  /* Import Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+  /* Root variables for consistent theming */
   :root {
     --cream: #F5EEDD;
     --mint: #7AE2CF;
     --teal: #077A7D;
     --navy: #06202B;
-
     --radius-lg: 2rem;
     --shadow-sm: 0 2px 6px rgba(0,0,0,.08);
     --shadow-md: 0 8px 24px rgba(0,0,0,.12);
   }
 
-  * {
-    box-sizing: border-box;
-  }
+  /* Global box-sizing and font settings */
+  * { box-sizing: border-box; }
 
   html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     overflow-x: hidden;
-    font-family: "DM Serif Display", serif;
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+  }
+
+  /* Headings font */
+  h1, h2, h3, h4 {
+    font-family: 'DM Serif Display', serif;
+  }
+
+  /* Typewriter heading font */
+  .typewriter h1 {
+    font-family: 'DM Serif Display', serif;
+  }
+
+  /* Subtext and buttons font */
+  .hero-subtext,
+  .btn,
+  .how-we-work-header p,
+  .workflow-step p,
+  .workflow-step h4 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
   }
 
   /* ---------- HERO SECTION ---------- */
@@ -34,6 +62,7 @@
     color: var(--cream);
   }
 
+  /* Background video styling */
   .hero-section video {
     position: absolute;
     inset: 0;
@@ -43,6 +72,7 @@
     filter: brightness(.55);
   }
 
+  /* Hero content centering and padding */
   .hero-content {
     position: relative;
     padding: 0 1.5rem;
@@ -50,6 +80,7 @@
     max-width: 100%;
   }
 
+  /* Typewriter animation for main heading */
   .typewriter h1 {
     margin: 0;
     font-size: 4rem;
@@ -59,15 +90,18 @@
     animation: typing 3s steps(30,end) forwards, blink .75s step-end 4;
   }
 
+  /* Typing animation keyframes */
   @keyframes typing {
     from { width: 0; }
-    to { width: 100%; }
+    to { width: 100%; border-color: transparent; }
   }
 
+  /* Cursor blink animation */
   @keyframes blink {
     50% { border-color: transparent; }
   }
 
+  /* Hero subtext fade-in animation */
   .hero-subtext {
     font-size: 1.75rem;
     margin-top: 1rem;
@@ -82,6 +116,7 @@
     }
   }
 
+  /* Hero section buttons styling */
   .hero-buttons {
     margin-top: 2rem;
     display: flex;
@@ -127,6 +162,7 @@
     display: inline-block;
   }
 
+  /* Decorative underline for section heading */
   .how-we-work-header h2::after {
     content: '';
     position: absolute;
@@ -146,6 +182,7 @@
     font-size: 1.15rem;
   }
 
+  /* Workflow container for customer/expert sides */
   .workflow-container {
     display: flex;
     gap: 3rem;
@@ -155,6 +192,7 @@
     flex-wrap: nowrap;
   }
 
+  /* Workflow side card styling */
   .workflow-side {
     flex: 1;
     min-width: 280px;
@@ -178,6 +216,7 @@
     color: var(--navy);
   }
 
+  /* Steps list styling */
   .workflow-steps {
     list-style: none;
     margin: 0;
@@ -190,6 +229,7 @@
     margin-bottom: 2rem;
   }
 
+  /* Step number circle */
   .step-number {
     flex-shrink: 0;
     width: 50px;
@@ -204,6 +244,7 @@
     font-size: 1.1rem;
   }
 
+  /* Step content styling */
   .step-content h4 {
     margin: .15rem 0 .25rem;
     color: var(--navy);
@@ -217,7 +258,7 @@
     line-height: 1.5;
   }
 
-  /* --- Expert Side --- */
+  /* --- Expert Side Specific Styles --- */
   .workflow-side.business {
     background: #fff;
     box-shadow: var(--shadow-sm);
@@ -237,7 +278,7 @@
   }
 
   .workflow-side.business .step-content p {
-    color: var(--teal);
+    color: #555; 
   }
 
   /* ---------- Accessibility + Responsive ---------- */
@@ -248,6 +289,7 @@
     }
   }
 
+  /* Responsive: stack workflow sides on smaller screens */
   @media (max-width: 992px) {
     .workflow-container {
       flex-direction: column;
@@ -255,12 +297,12 @@
     }
   }
 
+  /* Responsive: smaller hero text and subtext on mobile */
   @media (max-width: 600px) {
     .typewriter h1 {
       font-size: 2.5rem;
       border: none;
     }
-
     .hero-subtext {
       font-size: 1.25rem;
     }
@@ -268,8 +310,9 @@
 </style>
 
 <body>
-  <!-- ===== HERO SECTION ===== -->
+  <!-- HERO SECTION: Welcome message and call-to-action buttons -->
   <section class="hero-section">
+    <!-- Background video for visual appeal -->
     <video autoplay muted loop playsinline>
       <source src="https://cdn.pixabay.com/video/2018/07/12/17257-280036012_large.mp4" type="video/mp4">
     </video>
@@ -285,15 +328,17 @@
     </div>
   </section>
 
-  <!-- ===== HOW WE WORK SECTION ===== -->
+  <!-- HOW WE WORK SECTION: Explains the process for customers and experts -->
   <section class="how-we-work">
     <div class="how-we-work-header">
       <h2>How&nbsp;We&nbsp;Work</h2>
-      <p>Experience seamless Vastu consultation through our streamlined process designed for both customers and experts.</p>
+      <p>
+        Experience seamless Vastu consultation through our streamlined process designed for both customers and experts.
+      </p>
     </div>
 
     <div class="workflow-container">
-      <!-- Customer Side -->
+      <!-- Customer workflow steps -->
       <div class="workflow-side customer">
         <h3>For Customers</h3>
         <ul class="workflow-steps">
@@ -321,7 +366,7 @@
         </ul>
       </div>
 
-      <!-- Expert Side -->
+      <!-- Expert workflow steps -->
       <div class="workflow-side business">
         <h3>For Experts</h3>
         <ul class="workflow-steps">

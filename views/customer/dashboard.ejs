@@ -1,274 +1,337 @@
 <% layout('layouts/boilerplate') %>
+<!-- Google Fonts: Rubik -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+  /* ===== Root Variables ===== */
+  :root {
+    --primary-color: #06202B;
+    --primary-text: #F5EEDD;
+    --secondary-color: #4A90E2;
+    --background-color: #f7f9fc;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --muted-text-color: #6c757d;
+    --border-color: #e9ecef;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --font-family: "Rubik", sans-serif;
+  }
+
+  /* ===== Animations ===== */
   @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes slideIn {
-    0% { opacity: 0; transform: translateX(-20px); }
-    100% { opacity: 1; transform: translateX(0); }
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-
-  * {
-    font-family: "DM Serif Display", serif;
-    box-sizing: border-box;
-  }
-
+  /* ===== General Styles ===== */
   body {
-    background-color: #fdfdfd;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
   }
 
-  .login-wrapper {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: 60px auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: space-between;
-    animation: fadeIn 0.8s ease forwards;
+  .dashboard-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    animation: fadeIn 0.7s ease-out;
   }
 
-  .section {
-    flex: 1;
-    min-width: 320px;
-    animation: slideIn 0.6s ease forwards;
+  /* ===== Header ===== */
+  .dashboard-header {
+    margin-bottom: 30px;
+  }
+  .dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
   }
 
-  .google-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #06202B;
-    color: #F5EEDD;
-    padding: 12px 24px;
-    border-radius: 10px;
-    text-decoration: none;
+  /* ===== Section Title ===== */
+  .appointments-section {
+    width: 100%;
+  }
+  .section-title {
+    font-size: 1.75rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    margin-top: 16px;
-    animation: fadeIn 0.6s ease forwards;
-  }
-
-  .google-btn:hover {
-    background-color: #F5EEDD;
-    color: #06202B;
-    border: 2px solid #06202B;
-    animation: bounce 0.3s ease-in-out;
-  }
-
-  
-
-  .card {
-    background: #fefefe;
-    padding: 24px;
-    border-radius: 14px;
-    box-shadow: rgb(65, 62, 62)0px rgba(0,0,0,0.07);
-    margin-bottom: 24px;
-    animation: fadeIn 0.5s ease forwards;
-    transition: transform 0.2s ease;
-  }
-
-  .card:hover {
-    transform: translateY(-4px);
-  }
-
-  .card h2 {
+    color: var(--primary-color);
     margin-bottom: 20px;
-    color: #06202B;
-    font-size: 28px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
   }
 
-  .appointment-grid {
-    display: grid;
-    gap: 20px;
-  }
-
-  .info-pair {
-    margin-bottom: 10px;
-    opacity: 0;
-    animation: fadeIn 0.6s ease forwards;
-    animation-delay: 0.2s;
-    animation-fill-mode: forwards;
-    color: #555;
-    font-size: 16px;
-  }
-
-  .info-pair strong {
-    color: #06202B;
-    font-weight: 600;
-  }
-
-  .profile-pic {
-    border-radius: 50%;
-    margin-top: 12px;
-    max-width: 100px;
+  /* ===== Appointment Card ===== */
+  .appointment-card {
+    background: var(--card-background);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    margin-bottom: 25px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .appointment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
   }
 
-  .profile-pic:hover {
-    transform: scale(1.07);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  /* ===== Card Header ===== */
+  .card-header h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  .card-header h3 a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .card-header h3 a:hover {
+    color: var(--primary-color);
   }
 
+  /* ===== Info Grid ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  .info-pair {
+    font-size: 1rem;
+    color: var(--muted-text-color);
+  }
+  .info-pair strong {
+    color: var(--text-color);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ===== Timeline Styles ===== */
   .timeline {
+    position: relative;
+    padding: 20px 0;
+    margin-top: 10px;
+  }
+  .timeline-track {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
-    max-width: 100%;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .timeline-step {
-    flex: 1 1 auto;
-    min-width: 90px;
     position: relative;
-    text-align: center;
-    font-weight: 600;
-    color: #bbb;
-    padding-top: 30px;
-    white-space: nowrap;
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
   }
-
-  .timeline-step::before {
+  .timeline-track::before {
     content: '';
     position: absolute;
     top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #ddd;
-    z-index: 1;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .timeline-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 19px;
-    left: 50%;
-    width: 100%;
-    max-width: 50%;
+    left: 0;
+    right: 0;
     height: 4px;
-    background-color: #ddd;
-    z-index: 0;
-    transform: translateX(50%);
+    background-color: var(--border-color);
+    width: 100%;
+  }
+  .timeline-step {
+    text-align: center;
+    position: relative;
+    width: 100px; /* fixed width for alignment */
+  }
+  .timeline-step .dot {
+    height: 20px;
+    width: 20px;
+    background-color: var(--border-color);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 3px solid var(--background-color);
+    transition: background-color 0.3s ease;
+  }
+  .timeline-step .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted-text-color);
+  }
+  /* Timeline Active/Completed States */
+  .timeline-step.completed .dot {
+    background-color: var(--success-color);
+  }
+  .timeline-step.active .dot {
+    background-color: var(--secondary-color);
+  }
+  .timeline-step.completed .label {
+    color: var(--success-color);
+  }
+  .timeline-step.active .label {
+    color: var(--secondary-color);
+  }
+  /* Special state for Cancelled */
+  .status-cancelled .timeline-track::before {
+    background-color: var(--danger-color);
+  }
+  .status-cancelled .timeline-step .dot {
+    background-color: var(--danger-color);
+  }
+  .status-cancelled .timeline-step .label {
+    color: var(--danger-color);
+    font-weight: 600;
   }
 
-  .timeline-step.active {
-    color: #06202B;
+  /* ===== Action Buttons ===== */
+  .card-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-cta {
+      background-color: var(--secondary-color);
+      color: white;
+      display: inline-block;
+      margin-top: 10px;
+  }
+  .btn-cta:hover {
+      background-color: #3a7ac8;
+      transform: translateY(-2px);
   }
 
-  .timeline-step.active::before {
-    background-color: #06202B;
-    box-shadow: 0 0 10px #06202B;
+  .btn-delete {
+    background-color: var(--danger-color);
+    color: white;
+  }
+  .btn-delete:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
   }
 
-  .timeline-step.completed::after {
-    background-color: #06202B;
+  .no-appointments {
+    text-align: center;
+    padding: 40px;
+    background: var(--card-background);
+    border-radius: 16px;
   }
-
+  .no-appointments p {
+    font-size: 1.1rem;
+    color: var(--muted-text-color);
+    margin-bottom: 20px;
+  }
+  
   @media (max-width: 767px) {
-    .timeline {
-      display: block;
-      max-width: 320px;
-      margin: 20px auto;
-      padding-left: 20px;
-      position: relative;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 10px;
-      width: 4px;
-      height: 100%;
-      background-color: #ddd;
-      z-index: 0;
-    }
-
-    .timeline-step {
-      position: relative;
-      padding-left: 40px;
-      padding-top: 10px;
-      padding-bottom: 30px;
-      text-align: left;
-      white-space: normal;
-      min-width: auto;
-    }
-
-    .timeline-step::before {
-      top: 10px;
-      left: 0;
-      transform: none;
-    }
-
-    .timeline-step:not(:last-child)::after,
-    .timeline-step.completed::after {
-      display: none;
-    }
+      .dashboard-header h1 { font-size: 2rem; }
+      .section-title { font-size: 1.5rem; }
+      .timeline-step .label { font-size: 0.75rem; }
   }
 </style>
 
+<div class="dashboard-wrapper">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <h1>Welcome, <%= user.name %>!</h1>
+  </div>
 
-<div class="login-wrapper">
+  <div class="appointments-section">
+    <h2 class="section-title">Your Appointments</h2>
+    
+    <% if (appointments && appointments.length > 0) { %>
+      <% appointments.forEach(appointment => { 
+          // Determine appointment status
+          const isCancelled = appointment.status === 'Cancelled';
+          const isCompleted = appointment.status === 'Completed';
+          const isConfirmed = appointment.status === 'Confirmed';
+          const isPending = appointment.status === 'Pending';
+      %>
+        <!-- Appointment Card -->
+        <div class="appointment-card <%= isCancelled ? 'status-cancelled' : '' %>">
+          <div class="card-header">
+            <h3>
+              Appointment with 
+              <a href="/business/<%= appointment.business ? appointment.business._id : '' %>">
+                <%= appointment.business ? appointment.business.name : "an unknown business" %>
+              </a>
+            </h3>
+          </div>
 
-  <div class="section">
-    <div class="card">
-<h1>Welcome, <%= user.name %>!</h1>
-<br>
-      <% if (appointments && appointments.length > 0) { %>
-        <div class="appointment-grid">
-          <h2 class="your-appointments"><a href="/appointment/book" style="font-style: normal;text-decoration: none;color:#F5EEDD;background-color: #06202B;border-radius: 10px;"> &nbsp;Your Appointments &nbsp;</a></h2>
-          <% appointments.forEach(appointment => { %>
-            <div class="card">
-              <div class="info-pair"><h3 style="word-wrap: wrap;">Your appointment is fixed with <span style="color: #06202B;"> <%= appointment.business ? appointment.business.name : "Unknown" %> </span> at <span style="color: #06202B;"><%= appointment.business.address %> </span> </h3>
-              </div>
-              <div class="info-pair"><strong>Date - </strong><%= appointment.date.toDateString() %></div>
-              <div class="info-pair"><strong>Time - </strong> <%= appointment.time %></div>
-              <div class="info-pair"><strong>Service - </strong> <%= appointment.serviceType %></div>
-              <div class="timeline">
-  <div class="timeline-step <%= (appointment.status === 'Pending' || appointment.status === 'Confirmed' || appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Pending</div>
-  <div class="timeline-step <%= (appointment.status === 'Confirmed' || appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Confirmed</div>
-  <div class="timeline-step <%= (appointment.status === 'Completed' || appointment.status === 'Cancelled') ? 'active completed' : '' %>">Completed</div>
-  <div class="timeline-step <%= (appointment.status === 'Cancelled') ? 'active completed' : '' %>">Cancelled</div>
-</div>
-<form action="/appointments/delete/<%= appointment._id %>" method="POST">
-
-                <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this listing?')">Cancel Appointment</button>
-              </form>
-
-<% if (user.role === 'business') { %>
-        <a class="google-btn" href="/business/dashboard">View your Business Dashboard</a>
-      <% } %>
-              
+          <!-- Appointment Info Grid -->
+          <div class="info-grid">
+            <div class="info-pair">
+              <strong>Date & Time</strong>
+              <%= appointment.date.toDateString() %> at <%= appointment.time %>
             </div>
-          <% }) %>
+            <div class="info-pair">
+              <strong>Service</strong>
+              <%= appointment.serviceType %>
+            </div>
+            <% if (appointment.business && appointment.business.address) { %>
+              <div class="info-pair">
+                <strong>Location</strong>
+                <%= appointment.business.address.area %>, <%= appointment.business.address.city %>
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Appointment Timeline -->
+          <div class="timeline">
+            <% if (isCancelled) { %>
+              <!-- Cancelled State Timeline -->
+              <div class="timeline-track">
+                <div class="timeline-step">
+                   <div class="dot"></div>
+                   <div class="label">This appointment has been cancelled.</div>
+                </div>
+              </div>
+            <% } else { %>
+              <!-- Normal Timeline -->
+              <div class="timeline-track">
+                <!-- Pending Step -->
+                <div class="timeline-step <%= isPending || isConfirmed || isCompleted ? 'completed' : '' %> <%= isPending ? 'active' : '' %>">
+                  <div class="dot"></div>
+                  <div class="label">Pending</div>
+                </div>
+                <!-- Confirmed Step -->
+                <div class="timeline-step <%= isConfirmed || isCompleted ? 'completed' : '' %> <%= isConfirmed ? 'active' : '' %>">
+                  <div class="dot"></div>
+                  <div class="label">Confirmed</div>
+                </div>
+                <!-- Completed Step -->
+                <div class="timeline-step <%= isCompleted ? 'completed' : '' %>">
+                  <div class="dot"></div>
+                  <div class="label">Completed</div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+          
+          <!-- Cancel Appointment Button (if not cancelled or completed) -->
+          <% if (!isCancelled && !isCompleted) { %>
+            <div class="card-actions">
+              <form action="/appointments/delete/<%= appointment._id %>" method="POST" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                <button type="submit" class="btn btn-delete">Cancel Appointment</button>
+              </form>
+            </div>
+          <% } %>
         </div>
-      <% } else { %>
-        <h2>Your Appointments</h2>
-        <p style="color: #666;">You have no upcoming appointments.</p>
-        <a class="google-btn" href="/appointment/book">Book Appointment</a>
-      <% } %>
-    </div>
+      <% }) %>
+    <% } else { %>
+      <!-- No Appointments Message -->
+      <div class="no-appointments">
+        <p>You have no upcoming appointments.</p>
+        <a class="btn btn-cta" style="background-color: #06202B;color: white;" href="/appointment/book">Book an Appointment</a>
+      </div>
+    <% } %>
+    
+    <!-- Business Dashboard Link (if user is a business) -->
+    <% if (user.role === 'business') { %>
+      <div style="margin-top: 30px; text-align: center;">
+        <a class="btn btn-cta" href="/business/dashboard">View your Business Dashboard</a>
+      </div>
+    <% } %>
   </div>
 </div>

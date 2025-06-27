@@ -1,0 +1,502 @@
+<% layout('layouts/boilerplate') %>
+<!-- Font Awesome & Google Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* =========================
+       CSS Variables & Base Styles
+    ========================= */
+    :root {
+        --primary-color: #0d2c3a;
+        --secondary-color: #f7f3e9;
+        --accent-color: #4a7c94;
+        --text-primary: #2c3e50;
+        --text-secondary: #5a6a77;
+        --card-bg: #ffffff;
+        --border-light: #e8e8e8;
+        --star-color: #ffc107;
+        --border-radius-md: 12px;
+        --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+        --shadow-md: 0 8px 15px rgba(0,0,0,0.08);
+        --font-primary: 'Poppins', sans-serif;
+        --font-headings: 'DM Serif Display', serif;
+    }
+
+    /* =========================
+       Layout Containers
+    ========================= */
+    .detail-page-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: var(--font-primary);
+    }
+    .detail-grid-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+    @media (min-width: 992px) {
+        .detail-grid-layout {
+            grid-template-columns: 2.5fr 1fr;
+        }
+    }
+    .main-content-area {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-md);
+        padding: 35px;
+        border: 1px solid var(--border-light);
+    }
+
+    /* =========================
+       Gallery Styles
+    ========================= */
+    .photo-gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 150px);
+        gap: 10px;
+        margin-bottom: 35px;
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+    }
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .gallery-item:hover img {
+        transform: scale(1.05);
+    }
+    .gallery-item.item-1 {
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+    }
+    .gallery-item { cursor: pointer; }
+    .view-all {
+        background-color: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* =========================
+       Header Styles
+    ========================= */
+    .business-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-light);
+    }
+    .business-name {
+        font-family: var(--font-headings);
+        font-size: 42px;
+        color: var(--primary-color);
+        margin: 0;
+    }
+    .business-location {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin: 5px 0 0;
+    }
+    .business-location .icon { color: var(--accent-color); margin-right: 8px; }
+    .gst-number {
+        background-color: #f4f4f4;
+        color: #888;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    /* =========================
+       Service Tags
+    ========================= */
+    .service-tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+    .service-type-tag {
+        background-color: var(--secondary-color);
+        color: var(--accent-color);
+        padding: 8px 15px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    /* =========================
+       Section Styles
+    ========================= */
+    .content-section {
+        margin-bottom: 40px;
+    }
+    .section-title {
+        font-family: var(--font-headings);
+        font-size: 1.75rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--accent-color);
+        display: inline-block;
+    }
+    .section-text {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+    }
+
+    /* =========================
+       Info List Styles
+    ========================= */
+    .info-list { list-style: none; padding: 0; }
+    .info-list li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        color: var(--text-primary);
+    }
+    .info-list .icon {
+        color: var(--accent-color);
+        margin-right: 18px;
+        width: 22px;
+        text-align: center;
+        font-size: 1.1rem;
+        margin-top: 3px;
+    }
+    .info-list strong { font-weight: 600; }
+
+    /* =========================
+       Packages Styles
+    ========================= */
+    .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    .package-card {
+        background-color: var(--secondary-color);
+        border: 1px solid #e5ddd0;
+        padding: 25px;
+        border-radius: var(--border-radius-md);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    .package-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    .package-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 5px; color: var(--primary-color); }
+    .package-price { font-size: 1.5rem; font-weight: 700; margin: 0 0 15px; color: var(--accent-color); }
+    .package-description { color: var(--text-secondary); line-height: 1.6; flex-grow: 1; }
+    .package-select-btn {
+        margin-top: 20px;
+        background: var(--accent-color);
+        color: white;
+        text-align: center;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+    .package-select-btn:hover { background-color: var(--primary-color); }
+
+    /* =========================
+       Reviews Styles
+    ========================= */
+    .review-card {
+        border: 1px solid var(--border-light);
+        padding: 20px;
+        border-radius: var(--border-radius-md);
+        margin-bottom: 15px;
+        box-shadow: var(--shadow-sm);
+    }
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .review-author { font-weight: 700; color: var(--text-primary); }
+    .review-rating { color: var(--star-color); font-size: 0.9rem; }
+    .review-text {
+        font-style: italic;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    /* =========================
+       Sidebar & Action Card
+    ========================= */
+    .sidebar-area {
+        position: sticky;
+        top: 20px;
+    }
+    .action-card-sticky {
+        background: var(--card-bg);
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--border-light);
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+    }
+    .price-display { margin-bottom: 25px; }
+    .price-display span {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+    .price-display p {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 5px 0 0;
+    }
+    .price-display p span {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text-secondary);
+    }
+    .contact-for-price {
+        font-family: var(--font-headings);
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+    }
+    .appointment-btn {
+        display: block;
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(13, 44, 58, 0.2);
+    }
+    .appointment-btn:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(13, 44, 58, 0.3);
+    }
+    .appointment-btn .fa-calendar-check { margin-right: 10px; }
+    .contact-details {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-light);
+    }
+    .contact-title {
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 15px;
+    }
+    .contact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+    .contact-list li {
+        margin-bottom: 10px;
+    }
+    .contact-list a {
+        text-decoration: none;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+    .contact-list a:hover {
+        color: var(--accent-color);
+    }
+    .contact-list .icon {
+        color: var(--accent-color);
+        margin-right: 12px;
+        width: 18px;
+    }
+</style>
+
+<div class="detail-page-container">
+    <div class="detail-grid-layout">
+        <!-- =========================
+             Main Content Area
+        ========================= -->
+        <main class="main-content-area">
+
+            <!-- Gallery Section (if images exist) -->
+            <% if (business.galleryImages && business.galleryImages.length) { %>
+                <div class="photo-gallery">
+                    <% business.galleryImages.slice(0, 3).forEach((img, index) => { %>
+                        <div class="gallery-item item-<%= index + 1 %>">
+                            <img src="<%= img.url %>" alt="<%= business.name %> Gallery Image <%= index + 1 %>">
+                        </div>
+                    <% }) %>
+                    <% if (business.galleryImages.length > 3) { %>
+                        <div class="gallery-item view-all">
+                            <span>View All Photos</span>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+
+            <!-- Business Header: Name, Location, GST -->
+            <div class="business-header">
+                <div class="header-content">
+                    <h1 class="business-name"><%= business.name %></h1>
+                    <p class="business-location">
+                        <i class="fas fa-map-marker-alt icon"></i>
+                        <%= `${business.address.city}, ${business.address.state}` %>
+                    </p>
+                </div>
+                <div class="header-meta">
+                    <span class="gst-number">GST: <%= business.documents.gstNumber %></span>
+                </div>
+            </div>
+
+            <!-- Service Category Tags -->
+            <% if (business.serviceCategories && business.serviceCategories.length) { %>
+                <div class="service-tags-container">
+                    <% business.serviceCategories.forEach(category => { %>
+                        <span class="service-type-tag"><%= category %></span>
+                    <% }) %>
+                </div>
+            <% } %>
+
+            <!-- About Section -->
+            <div class="content-section">
+                <h2 class="section-title">About Our Services</h2>
+                <p class="section-text"><%= business.detailedServices || 'No detailed description available.' %></p>
+            </div>
+
+            <!-- Professional Details Section -->
+            <div class="content-section">
+                <h2 class="section-title">Professional Details</h2>
+                <ul class="info-list">
+                    <li>
+                        <i class="fas fa-briefcase icon"></i>
+                        <div><strong>Type:</strong> <%= business.workType %></div>
+                    </li>
+                    <li>
+                        <i class="fas fa-star icon"></i>
+                        <div><strong>Experience:</strong> <%= business.yearsInBusiness %>+ years</div>
+                    </li>
+                    <li>
+                        <i class="fas fa-plane-departure icon"></i>
+                        <div><strong>Willing to Travel:</strong> <%= business.willingToTravel ? 'Yes' : 'No' %></div>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock icon"></i>
+                        <div><strong>Working Hours:</strong> <%= business.workingHours.start %> - <%= business.workingHours.end %></div>
+                    </li>
+                    <li>
+                        <i class="fas fa-comments icon"></i>
+                        <div><strong>Languages:</strong> <%= business.languagesSpoken.join(', ') %></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Service Packages Section (if any) -->
+            <% if(business.packages && business.packages.length) { %>
+                <div class="content-section">
+                    <h2 class="section-title">Service Packages</h2>
+                    <div class="packages-grid">
+                        <% business.packages.forEach(pkg => { %>
+                            <div class="package-card">
+                                <h3 class="package-title"><%= pkg.title %></h3>
+                                <p class="package-price">₹<%= pkg.price.toLocaleString() %></p>
+                                <p class="package-description"><%= pkg.description %></p>
+                                <a href="/appointment/book?businessId=<%= business._id %>" class="package-select-btn">Select Package</a>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Reviews Section (if any) -->
+            <% if(business.reviews && business.reviews.length) { %>
+                <div class="content-section">
+                    <h2 class="section-title">What Our Clients Say</h2>
+                    <div class="reviews-container">
+                        <% business.reviews.forEach(review => { %>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <span class="review-author"><%= review.author %></span>
+                                    <span class="review-rating">
+                                        <% for(let i = 0; i < review.rating; i++) { %>
+                                            <i class="fas fa-star"></i>
+                                        <% } %>
+                                        <% for(let i = 0; i < 5 - review.rating; i++) { %>
+                                            <i class="far fa-star"></i>
+                                        <% } %>
+                                    </span>
+                                </div>
+                                <p class="review-text">"<%= review.text %>"</p>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+
+        </main>
+
+        <!-- =========================
+             Sidebar Area
+        ========================= -->
+        <aside class="sidebar-area">
+            <div class="action-card-sticky">
+                <!-- Price Display or Contact for Price -->
+                <% if(business.startingPrice) { %>
+                    <div class="price-display">
+                        <span>Starting from</span>
+                        <p>₹<%= business.startingPrice.toLocaleString() %> <span>/ <%= business.priceUnit %></span></p>
+                    </div>
+                <% } else { %>
+                    <h3 class="contact-for-price">Contact for Pricing</h3>
+                <% } %>
+
+                <!-- Appointment Button -->
+                <a href="/appointment/book?businessId=<%= business._id %>" class="appointment-btn">
+                    <i class="fas fa-calendar-check"></i>
+                    Book Appointment
+                </a>
+
+                <!-- Contact Details -->
+                <div class="contact-details">
+                    <p class="contact-title">Direct Contact</p>
+                    <ul class="contact-list">
+                        <li>
+                            <a href="tel:<%= business.contact.phone %>">
+                                <i class="fas fa-phone icon"></i> <%= business.contact.phone %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:<%= business.contact.email %>">
+                                <i class="fas fa-envelope icon"></i> <%= business.contact.email %>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

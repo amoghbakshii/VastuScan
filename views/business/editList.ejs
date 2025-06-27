@@ -1,110 +1,225 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- =========================
+  Custom Styles for the Form
+========================== -->
 <style>
-
-    * {
-    font-family: 'DM Serif Display', serif;
+  .main-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
   }
-  
-  .edit-card {
-    animation: fadeInUp 0.6s ease;
-    border-radius: 1rem;
-    background: #ffffff;
-    padding: 2rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  .edit-form-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
   }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    } to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  label {
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-
-  input, textarea {
-    border-radius: 0.5rem !important;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-  }
-
-  input:focus, textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.15rem rgba(0,123,255,0.25);
-  }
-
-  .btn {
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
-    padding: 0.5rem 1.2rem;
-  }
-
-  .btn-outline-secondary {
-    color: #6c757d;
-    border-color: #ced4da;
-  }
-
-  .btn-outline-secondary:hover {
+  .card-header {
     background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #333;
+  }
+  .form-control, .form-select {
+    border-radius: 8px;
+  }
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+  .form-text {
+    font-size: 0.85em;
+    color: #fff;
+  }
+  .btn {
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    background-color: #06202B;
+  }
+  h1 {
+    font-weight: 700;
+    color: #06202B;
   }
 </style>
 
-<div class="container py-5">
+<div class="container main-container">
   <div class="row justify-content-center">
-    <div class="col-lg-7 edit-card">
-      <h1>Edit Listing</h1>
+    <div class="col-xl-9 col-lg-10">
+   <!-- Page Title -->
+   <div class="text-center mb-4">
+     <h1>Edit Business Listing</h1>
+   </div>
 
-      <% if (typeof error !== 'undefined') { %>
-        <div class="alert alert-danger"><%= error %></div>
-      <% } %>
-
-      <form action="/business/edit/<%= business._id %>" method="POST">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="name">Business Name</label>
-            <input type="text" class="form-control" id="name" name="name" required value="<%= business.name %>">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="serviceType">Service Type</label>
-            <input type="text" class="form-control" id="serviceType" name="serviceType" required value="<%= business.serviceType %>">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="contact">Contact Number</label>
-            <input type="text" class="form-control" id="contact" name="contact" required value="<%= business.contact %>">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="address">Business Address</label>
-            <input type="text" class="form-control" id="address" name="address" required value="<%= business.address %>">
-          </div>
-
-          <div class="col-12 mb-4">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"><%= business.description %></textarea>
-          </div>
+   <!-- =========================
+     Edit Business Form
+   ========================== -->
+   <form action="/business/edit/<%= business._id %>" method="POST" class="needs-validation" novalidate>
+     
+     <!-- Core Information Card -->
+     <div class="card edit-form-card mb-4">
+    <div class="card-header">Core Information</div>
+    <div class="card-body p-4">
+      <div class="row">
+        <!-- Business Name -->
+        <div class="col-md-6 mb-3">
+       <label for="name" class="form-label">Business Name</label>
+       <input type="text" class="form-control" id="name" name="name" required value="<%= business.name %>">
         </div>
-
-        <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">Update</button>
-          <a href="/business/dashboard" class="btn btn-outline-secondary">Cancel</a>
+        <!-- Service Type -->
+        <div class="col-md-6 mb-3">
+       <label for="serviceType" class="form-label">Service Type</label>
+       <input type="text" class="form-control" id="serviceType" name="serviceType" required value="<%= business.serviceType %>">
         </div>
-      </form>
+      </div>
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="4" required><%= business.description %></textarea>
+      </div>
+    </div>
+     </div>
+
+     <!-- Contact & Address Card -->
+     <div class="card edit-form-card mb-4">
+    <div class="card-header">Contact & Address</div>
+    <div class="card-body p-4">
+      <div class="row">
+        <!-- Contact Phone -->
+        <div class="col-md-6 mb-3">
+       <label for="contactPhone" class="form-label">Contact Phone</label>
+       <input type="tel" class="form-control" id="contactPhone" name="contact[phone]" required value="<%= business.contact.phone %>">
+        </div>
+        <!-- Contact Email -->
+        <div class="col-md-6 mb-3">
+       <label for="contactEmail" class="form-label">Contact Email</label>
+       <input type="email" class="form-control" id="contactEmail" name="contact[email]" required value="<%= business.contact.email %>">
+        </div>
+        <!-- Website URL -->
+        <div class="col-md-12 mb-3">
+       <label for="website" class="form-label">Website URL</label>
+       <input type="url" class="form-control" id="website" name="website" value="<%= business.website || '' %>">
+        </div>
+      </div>
+      <hr class="my-3">
+      <h6 class="mb-3">Business Address</h6>
+      <div class="row">
+        <!-- House/Building No. -->
+        <div class="col-md-8 mb-3">
+       <label for="houseNo" class="form-label">House/Building No.</label>
+       <input type="text" class="form-control" id="houseNo" name="address[houseNo]" required value="<%= business.address.houseNo %>">
+        </div>
+        <!-- Road/Street -->
+        <div class="col-md-4 mb-3">
+       <label for="road" class="form-label">Road/Street</label>
+       <input type="text" class="form-control" id="road" name="address[road]" required value="<%= business.address.road %>">
+        </div>
+        <!-- Area/Locality -->
+        <div class="col-md-6 mb-3">
+       <label for="area" class="form-label">Area/Locality</label>
+       <input type="text" class="form-control" id="area" name="address[area]" required value="<%= business.address.area %>">
+        </div>
+        <!-- City -->
+        <div class="col-md-6 mb-3">
+       <label for="city" class="form-label">City</label>
+       <input type="text" class="form-control" id="city" name="address[city]" required value="<%= business.address.city %>">
+        </div>
+        <!-- State -->
+        <div class="col-md-6 mb-3">
+       <label for="state" class="form-label">State</label>
+       <input type="text" class="form-control" id="state" name="address[state]" required value="<%= business.address.state %>">
+        </div>
+        <!-- Pincode -->
+        <div class="col-md-6 mb-3">
+       <label for="pincode" class="form-label">Pincode</label>
+       <input type="text" class="form-control" id="pincode" name="address[pincode]" required value="<%= business.address.pincode %>">
+        </div>
+      </div>
+    </div>
+     </div>
+
+     <!-- Service Details Card -->
+     <div class="card edit-form-card mb-4">
+    <div class="card-header">Service Details</div>
+    <div class="card-body p-4">
+      <div class="row">
+        <!-- Service Areas -->
+        <div class="col-md-6 mb-3">
+       <label for="serviceAreas" class="form-label">Service Areas</label>
+       <input type="text" class="form-control" id="serviceAreas" name="serviceAreas" value="<%= business.serviceAreas.join(', ') %>">
+       <div class="form-text">Enter areas separated by commas (e.g., Downtown, North Side).</div>
+        </div>
+        <!-- Languages Spoken -->
+        <div class="col-md-6 mb-3">
+       <label for="languagesSpoken" class="form-label">Languages Spoken</label>
+       <input type="text" class="form-control" id="languagesSpoken" name="languagesSpoken" value="<%= business.languagesSpoken.join(', ') %>">
+       <div class="form-text">Enter languages separated by commas (e.g., English, Spanish).</div>
+        </div>
+        <!-- Years in Service -->
+        <div class="col-md-6 mb-3">
+       <label for="yearsInService" class="form-label">Years in Service</label>
+       <input type="number" class="form-control" id="yearsInService" name="yearsInService" value="<%= business.yearsInService || '' %>" min="0">
+        </div>
+      </div>
+      <div class="mt-2">
+        <!-- Emergency Services Switch -->
+        <div class="form-check form-switch mb-2">
+       <input class="form-check-input" type="checkbox" id="emergencyServices" name="emergencyServices" value="true" <%= business.emergencyServices ? 'checked' : '' %>>
+       <label class="form-check-label" for="emergencyServices">Offers Emergency Services</label>
+        </div>
+        <!-- Free Consultation Switch -->
+        <div class="form-check form-switch">
+       <input class="form-check-input" type="checkbox" id="freeConsultation" name="freeConsultation" value="true" <%= business.freeConsultation ? 'checked' : '' %>>
+       <label class="form-check-label" for="freeConsultation">Offers Free Consultation</label>
+        </div>
+      </div>
+    </div>
+     </div>
+     
+     <!-- Packages Card (Optional) -->
+     <div class="card edit-form-card mb-4">
+    <div class="card-header">Packages (Optional)</div>
+    <div class="card-body p-4">
+      <div class="row">
+        <!-- Package Title -->
+        <div class="col-md-12 mb-3">
+       <label for="packageTitle" class="form-label">Package Title</label>
+       <input type="text" class="form-control" id="packageTitle" name="packages[title]" value="<%= business.packages[0] ? business.packages[0].title : '' %>">
+        </div>
+        <!-- Package Description -->
+        <div class="col-md-12 mb-3">
+       <label for="packageDescription" class="form-label">Package Description</label>
+       <textarea class="form-control" id="packageDescription" name="packages[description]" rows="2"><%= business.packages[0] ? business.packages[0].description : '' %></textarea>
+        </div>
+        <!-- Package Price -->
+        <div class="col-md-6 mb-3">
+       <label for="packagePrice" class="form-label">Price</label>
+       <input type="number" class="form-control" id="packagePrice" name="packages[price]" min="0" value="<%= business.packages[0] ? business.packages[0].price : '' %>">
+        </div>
+        <!-- Package Features -->
+        <div class="col-md-6 mb-3">
+       <label for="packageFeatures" class="form-label">Package Features</label>
+       <input type="text" class="form-control" id="packageFeatures" name="packages[features]" value="<%= (business.packages[0] && Array.isArray(business.packages[0].features)) ? business.packages[0].features.join(', ') : '' %>">
+       <div class="form-text">Enter features separated by commas.</div>
+        </div>
+      </div>
+    </div>
+     </div>
+
+     <!-- Form Actions -->
+     <div class="d-flex justify-content-between mt-4">
+    <a href="/business/dashboard" class="btn btn-primary">Cancel</a>
+    <button type="submit" class="btn btn-primary">Update Listing</button>
+     </div>
+   </form>
     </div>
   </div>
 </div>
