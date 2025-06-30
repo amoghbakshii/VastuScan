@@ -1,7 +1,7 @@
 
 # 🧭 VastuScan
 
-**VastuScan** is a full-stack web platform that connects users with Vastu consultants and interior designers. Users can explore public business listings, book appointments, and businesses can manage their services via dedicated dashboards.
+**VastuScan** is a full-stack web platform that connects users with Vastu consultants , interior designers and many more. Users can explore public business listings, book appointments, and businesses can manage their services via dedicated dashboards.
 
 ## 🚀 Features
 
@@ -60,13 +60,10 @@ npm run dev
 
 ## 📸 Screenshots (Optional)
 
-> Add a few UI screenshots here of the dashboard, listings page, login page, etc.
-
----
 
 ## 📬 Contact
 
-Made with 💚 by [@amoghbakshii](https://github.com/amoghbakshii)  
+Made by [@amoghbakshii](https://github.com/amoghbakshii) 
+Live Website Link : https://vastuscan.onrender.com/
 For any queries, collabs or suggestions, feel free to reach out!
 
----
