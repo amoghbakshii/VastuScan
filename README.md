@@ -40,7 +40,6 @@ VastuScan/
 ├── controllers/        # Business Logic and Handlers
 ├── utils/              # Utility Functions (if any)
 ├── app.js              # Express App Entry Point
-└── .env                # Environment Variables
 ```
 
 ---
@@ -56,14 +55,13 @@ npm run dev
 
 > Make sure to create a `.env` file with your MongoDB URI, Google OAuth credentials, and other config.
 
----
-
-## 📸 Screenshots (Optional)
 
 
 ## 📬 Contact
 
 Made by [@amoghbakshii](https://github.com/amoghbakshii) 
-Live Website Link : https://vastuscan.onrender.com/
+
+Live Website Link : https://vastuscan.onrender.com/ 
+
 For any queries, collabs or suggestions, feel free to reach out!
 
